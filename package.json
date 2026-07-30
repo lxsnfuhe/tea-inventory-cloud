@@ -1,0 +1,9 @@
+{
+  "name": "tea-inventory-cloud",
+  "version": "1.0.0",
+  "description": "茶叶库存管理系统 - 云同步版（纯Node.js，零依赖）",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

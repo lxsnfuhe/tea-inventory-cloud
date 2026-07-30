@@ -1,0 +1,1814 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>茶叶库存管理系统</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f5f0e8;
+  --card-bg: #fffef9;
+  --border: #ddd6c8;
+  --text: #3d3226;
+  --text-secondary: #8c7b6b;
+  --accent: #8b5e3c;
+  --accent-light: #c4a882;
+  --success: #5a7d4a;
+  --danger: #c0392b;
+  --awake: #6c3483;
+  --white: #fff;
+  --shadow: 0 2px 8px rgba(0,0,0,0.06);
+  --radius: 8px;
+  --font: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* Header */
+.header { background: linear-gradient(135deg, #4a3623 0%, #6b4c33 50%, #5a3e28 100%); color: #fff; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 12px rgba(0,0,0,0.15); flex-wrap: wrap; gap: 8px; }
+.header h1 { font-size: 22px; font-weight: 600; letter-spacing: 2px; }
+.header-left { display: flex; align-items: center; gap: 16px; }
+.header-user { font-size: 12px; opacity: 0.8; background: rgba(255,255,255,0.12); padding: 4px 10px; border-radius: 12px; }
+.header-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.lock-status { font-size: 13px; cursor: pointer; opacity: 0.7; padding: 4px 8px; border-radius: 6px; transition: opacity 0.2s; }
+.lock-status:hover { opacity: 1; background: rgba(255,255,255,0.1); }
+.btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; font-family: var(--font); white-space: nowrap; }
+.btn-outline { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+.btn-outline:hover { background: rgba(255,255,255,0.25); }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-accent:hover { background: #7a5030; }
+.btn-success { background: var(--success); color: #fff; }
+.btn-success:hover { background: #4a6a3a; }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-danger:hover { background: #a93226; }
+.btn-warn { background: #e67e22; color: #fff; }
+.btn-warn:hover { background: #d35400; }
+.btn-awake { background: var(--awake); color: #fff; }
+.btn-awake:hover { background: #5b2c6f; }
+.btn-sm { padding: 4px 10px; font-size: 12px; }
+
+/* Tab Nav */
+.tab-nav { display: flex; background: var(--white); border-bottom: 2px solid var(--border); overflow-x: auto; padding: 0 20px; position: sticky; top: 0; z-index: 10; box-shadow: var(--shadow); }
+.tab-btn { padding: 14px 16px; border: none; background: none; cursor: pointer; font-size: 14px; color: var(--text-secondary); font-weight: 500; white-space: nowrap; transition: all 0.2s; border-bottom: 3px solid transparent; margin-bottom: -2px; font-family: var(--font); }
+.tab-btn:hover { color: var(--accent); }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 700; }
+.tab-btn .badge { display: inline-block; background: var(--accent-light); color: #fff; border-radius: 10px; padding: 1px 8px; font-size: 11px; margin-left: 6px; }
+.tab-btn.active .badge { background: var(--accent); }
+.tab-btn .awake-badge { display: inline-block; background: var(--awake); color: #fff; border-radius: 10px; padding: 1px 6px; font-size: 10px; margin-left: 3px; }
+
+/* Main */
+.main { max-width: 1500px; margin: 0 auto; padding: 24px; }
+
+/* KPI Cards */
+.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
+@media (max-width: 1100px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .kpi-row { grid-template-columns: 1fr; } }
+.kpi-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; box-shadow: var(--shadow); text-align: center; }
+.kpi-card .kpi-label { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+.kpi-card .kpi-value { font-size: 32px; font-weight: 700; color: var(--accent); }
+.kpi-card .kpi-unit { font-size: 14px; color: var(--text-secondary); }
+.kpi-card:nth-child(1) { border-top: 3px solid #e74c3c; }
+.kpi-card:nth-child(2) { border-top: 3px solid #3498db; }
+.kpi-card:nth-child(3) { border-top: 3px solid #2ecc71; }
+.kpi-card:nth-child(4) { border-top: 3px solid var(--awake); }
+.kpi-card:nth-child(4) .kpi-value { color: var(--awake); }
+
+/* Quick Actions Bar */
+.quick-actions { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.quick-actions .btn { padding: 10px 20px; font-size: 14px; border-radius: 8px; }
+.quick-actions .btn-add { background: var(--success); color: #fff; }
+.quick-actions .btn-add:hover { background: #4a6a3a; }
+.quick-actions .btn-consume { background: #e67e22; color: #fff; }
+.quick-actions .btn-consume:hover { background: #d35400; }
+.quick-actions .btn-awake-dash { background: var(--awake); color: #fff; }
+.quick-actions .btn-awake-dash:hover { background: #5b2c6f; }
+
+/* Age Distribution */
+.age-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+@media (max-width: 768px) { .age-row { grid-template-columns: repeat(2, 1fr); } }
+.age-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); text-align: center; }
+.age-card .age-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+.age-card .age-label { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.age-card .age-count { font-size: 28px; font-weight: 700; }
+.age-card .age-weight { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.age-new { border-top: 3px solid #27ae60; }
+.age-new .age-dot { background: #27ae60; }
+.age-new .age-count { color: #27ae60; }
+.age-transition { border-top: 3px solid #f39c12; }
+.age-transition .age-dot { background: #f39c12; }
+.age-transition .age-count { color: #f39c12; }
+.age-mid { border-top: 3px solid #d35400; }
+.age-mid .age-dot { background: #d35400; }
+.age-mid .age-count { color: #d35400; }
+.age-aged { border-top: 3px solid #8b0000; }
+.age-aged .age-dot { background: #8b0000; }
+.age-aged .age-count { color: #8b0000; }
+
+/* Tea Age Badge */
+.age-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; color: #fff; }
+.age-badge-new { background: #27ae60; }
+.age-badge-transition { background: #f39c12; }
+.age-badge-mid { background: #d35400; }
+.age-badge-aged { background: #8b0000; }
+.age-badge-na { color: var(--text-secondary); font-weight: 400; }
+
+/* Awakening badge in table */
+.awake-indicator { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; background: #f3e5f5; color: var(--awake); }
+
+/* Charts */
+.charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+@media (max-width: 768px) { .charts-row { grid-template-columns: 1fr; } }
+.chart-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+.chart-card h3 { font-size: 15px; color: var(--text); margin-bottom: 12px; text-align: center; }
+.chart-card canvas { max-height: 300px; }
+
+/* Summary Table */
+.summary-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 24px; }
+.summary-card h3 { font-size: 15px; color: var(--text); margin-bottom: 12px; }
+.summary-card table { width: 100%; border-collapse: collapse; }
+.summary-card th, .summary-card td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; }
+.summary-card th { background: #faf7f0; font-weight: 600; color: var(--text); }
+.summary-card tbody tr:hover { background: #fefcf7; cursor: pointer; }
+.summary-card .cat-link { color: var(--accent); text-decoration: underline; cursor: pointer; font-weight: 500; }
+
+/* Data Table */
+.data-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+.data-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+.data-card-header h3 { font-size: 15px; color: var(--text); }
+.data-card-header .btn-row { display: flex; gap: 8px; }
+.table-wrap { overflow-x: auto; max-height: 55vh; overflow-y: auto; }
+table.data-table { width: 100%; border-collapse: collapse; min-width: 1450px; font-size: 12px; }
+table.data-table th { background: #faf7f0; padding: 10px 6px; text-align: center; font-weight: 600; color: var(--text); border-bottom: 2px solid var(--accent-light); position: sticky; top: 0; z-index: 2; white-space: nowrap; }
+table.data-table td { padding: 7px 5px; text-align: center; border-bottom: 1px solid var(--border); }
+table.data-table tbody tr:hover { background: #fefcf7; }
+table.data-table .subtotal-row { background: #faf7f0; font-weight: 700; }
+table.data-table .subtotal-row td { border-top: 2px solid var(--accent-light); }
+table.data-table .col-num { color: var(--text-secondary); }
+table.data-table .col-highlight { font-weight: 600; color: var(--accent); }
+
+/* Form: auto-calc hint */
+.form-calc-hint { grid-column: 1 / -1; background: #f0f7ed; border: 1px dashed #b6d7a8; border-radius: 6px; padding: 10px 14px; font-size: 12px; color: var(--success); margin-top: 4px; }
+
+/* Modal */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 100; justify-content: center; align-items: center; }
+.modal-overlay.show { display: flex; }
+.modal { background: var(--white); border-radius: var(--radius); padding: 24px; width: 620px; max-height: 82vh; overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+.modal h3 { margin-bottom: 16px; color: var(--text); font-size: 16px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-grid .full { grid-column: 1 / -1; }
+.form-grid .triple { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; }
+.form-group input, .form-group select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 13px; font-family: var(--font); outline: none; }
+.form-group input:focus, .form-group select:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(139,94,60,0.1); }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+/* Consume / Awaken Modal */
+.select-item-row { display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: background 0.15s; }
+.select-item-row:hover { background: #fefcf7; }
+.select-item-row.selected { border-color: var(--accent); background: #fdf6ee; }
+.select-item-row .item-info { flex: 1; min-width: 0; }
+.select-item-row .item-name { font-weight: 600; font-size: 14px; }
+.select-item-row .item-meta { font-size: 12px; color: var(--text-secondary); }
+.select-item-row .item-stats { font-size: 12px; color: var(--accent); text-align: right; white-space: nowrap; }
+.select-input-row { display: flex; gap: 10px; align-items: center; margin-top: 16px; }
+.select-input-row input { width: 100px; padding: 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 13px; }
+
+/* Print */
+@media print {
+  .header, .tab-nav, .btn, .modal-overlay, .data-card-header button, .quick-actions, .age-row { display: none !important; }
+  .main { padding: 0; }
+  .table-wrap { max-height: none; overflow: visible; }
+  body { background: #fff; }
+  .kpi-row { page-break-inside: avoid; }
+  .charts-row { page-break-inside: avoid; }
+}
+
+.empty-state { text-align: center; padding: 40px; color: var(--text-secondary); }
+
+/* Login Overlay */
+.login-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #4a3623 0%, #6b4c33 50%, #5a3e28 100%); z-index: 9999; display: flex; justify-content: center; align-items: center; }
+.login-overlay.hidden { display: none; }
+.login-box { background: var(--card-bg); border-radius: 12px; padding: 40px 36px; width: 400px; box-shadow: 0 12px 48px rgba(0,0,0,0.3); text-align: center; }
+.login-box .lock-icon { font-size: 48px; margin-bottom: 12px; }
+.login-box h2 { font-size: 20px; color: var(--text); margin-bottom: 6px; }
+.login-box .subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; }
+.login-box .input-group { margin-bottom: 14px; text-align: left; }
+.login-box .input-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; }
+.login-box .input-group input { width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px; font-size: 15px; font-family: var(--font); outline: none; transition: border-color 0.2s; }
+.login-box .input-group input:focus { border-color: var(--accent); }
+.login-box .input-group input::placeholder { color: #ccc; }
+.login-box .error-msg { color: var(--danger); font-size: 12px; margin-bottom: 8px; min-height: 18px; }
+.login-box .login-actions { display: flex; flex-direction: column; gap: 10px; }
+.login-box .btn-block { width: 100%; padding: 12px; font-size: 15px; border-radius: 8px; }
+.login-box .forgot-link { background: none; border: none; color: var(--text-secondary); font-size: 12px; cursor: pointer; text-decoration: underline; margin-top: 8px; font-family: var(--font); }
+.login-box .forgot-link:hover { color: var(--danger); }
+.login-box .setup-hint { font-size: 11px; color: var(--text-secondary); margin-top: 16px; line-height: 1.6; }
+.login-box .setup-hint strong { color: var(--danger); }
+
+/* Role Badge */
+.role-badge { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; margin-left: 6px; }
+.role-badge-admin { background: #c0392b; color: #fff; }
+.role-badge-operator { background: #2980b9; color: #fff; }
+.role-badge-trial { background: #f39c12; color: #fff; }
+.role-badge-viewer { background: #95a5a6; color: #fff; }
+
+/* Remember Me */
+.remember-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 13px; color: var(--text-secondary); cursor: pointer; }
+.remember-row input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); }
+
+/* Trial remaining */
+.trial-remaining { font-size: 11px; color: #e67e22; margin-top: 2px; }
+.trial-remaining.warn { color: var(--danger); font-weight: 600; }
+
+/* Account mgmt table */
+.acc-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+.acc-table th, .acc-table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+.acc-table th { background: #faf7f0; font-weight: 600; }
+.acc-table .acc-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.acc-table .acc-you { color: var(--accent); font-weight: 600; font-size: 11px; }
+
+@media (max-width: 768px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .age-row { grid-template-columns: repeat(2, 1fr); }
+  .charts-row { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid .triple { grid-template-columns: 1fr; }
+  .modal { width: 95%; }
+  .login-box { width: 90%; padding: 30px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Login Overlay -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="lock-icon">🔒</div>
+    <h2 id="loginTitle">茶叶库存管理</h2>
+    <div class="subtitle" id="loginSubtitle">请输入账号密码解锁</div>
+    <div class="input-group">
+      <label>账号</label>
+      <input type="text" id="loginUsername" placeholder="输入账号" maxlength="32" autocomplete="username">
+    </div>
+    <div class="input-group">
+      <label>密码</label>
+      <input type="password" id="loginPassword" placeholder="输入密码" maxlength="32" autocomplete="current-password">
+    </div>
+    <div class="input-group" id="confirmPwdGroup" style="display:none;">
+      <label>确认密码</label>
+      <input type="password" id="loginPasswordConfirm" placeholder="再次输入密码" maxlength="32">
+    </div>
+    <label class="remember-row" id="rememberRow">
+      <input type="checkbox" id="rememberMe"> 记住登录状态（7天内自动登录）
+    </label>
+    <div class="error-msg" id="loginError"></div>
+    <div class="login-actions">
+      <button class="btn btn-accent btn-block" id="loginBtn" onclick="handleLogin()">登录</button>
+    </div>
+    <button class="forgot-link" id="forgotLink" onclick="handleForgotPassword()">忘记密码？</button>
+    <div class="setup-hint" id="setupHint"></div>
+  </div>
+</div>
+
+<!-- Main App -->
+<div class="header">
+  <div class="header-left">
+    <h1>🍵 茶叶库存管理</h1>
+    <span class="header-user" id="headerUser"></span>
+    <span id="headerRoleBadge"></span>
+    <span id="trialRemainingBadge"></span>
+  </div>
+  <div class="header-actions">
+    <span id="autoLockTimer" style="font-size:11px;opacity:0.6;margin-right:4px;"></span>
+    <span class="lock-status" onclick="lockScreen()" title="锁定屏幕">🔒 锁定</span>
+    <button class="btn btn-outline" onclick="changePassword()">🔑 改密</button>
+    <button class="btn btn-outline" id="btnAccountMgmt" onclick="showAccountManagement()" style="display:none;">👥 账号管理</button>
+    <button class="btn btn-outline" id="btnImport" onclick="checkPermThen('import',importCSV)">📥 导入CSV</button>
+    <button class="btn btn-outline" id="btnExport" onclick="exportAllCSV()">📤 导出CSV</button>
+    <button class="btn btn-outline" onclick="window.print()">🖨️ 打印</button>
+    <button class="btn btn-outline" id="btnReset" onclick="checkPermThen('reset',resetAll)">🗑️ 清空数据</button>
+  </div>
+</div>
+
+<div class="tab-nav" id="tabNav"></div>
+
+<div class="main">
+  <div class="tab-content" id="tab-dashboard"></div>
+  <div class="tab-content" id="tab-category" style="display:none;">
+    <div class="data-card">
+      <div class="data-card-header">
+        <h3 id="catTitle">白茶</h3>
+        <div class="btn-row">
+          <button class="btn btn-success btn-sm" id="catAddBtn" onclick="checkPermThen('add',openAddModal)">➕ 添加</button>
+          <button class="btn btn-warn btn-sm" id="catConsumeBtn" onclick="checkPermThen('consume',openConsumeFromCategory)">➖ 消耗</button>
+          <button class="btn btn-awake btn-sm" id="catAwakeBtn" onclick="checkPermThen('awaken',openAwakenFromCategory)" style="display:none;">🍃 醒茶</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:35px">#</th>
+              <th style="width:100px">品种/名称</th>
+              <th style="width:65px">品牌</th>
+              <th style="width:55px">型号</th>
+              <th style="width:55px">年份</th>
+              <th style="width:55px">茶龄</th>
+              <th style="width:60px">产地</th>
+              <th style="width:70px">规格</th>
+              <th style="width:42px">数量</th>
+              <th style="width:60px">单位重(g)</th>
+              <th style="width:58px">总重(g)</th>
+              <th style="width:65px">单价(¥)</th>
+              <th style="width:65px">总价(¥)</th>
+              <th style="width:75px">购买时间</th>
+              <th style="width:60px">存放位置</th>
+              <th style="width:50px">状态</th>
+              <th style="width:70px">备注</th>
+              <th style="width:50px">操作</th>
+            </tr>
+          </thead>
+          <tbody id="catTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3 id="modalTitle">添加茶叶</h3>
+    <div class="form-grid">
+      <div class="form-group full" id="formCatGroup" style="display:none;">
+        <label>茶类 *</label>
+        <select id="fCategory"></select>
+      </div>
+      <div class="form-group">
+        <label>品种/名称 *</label>
+        <input type="text" id="fName" placeholder="如：大益7542">
+      </div>
+      <div class="form-group">
+        <label>品牌</label>
+        <input type="text" id="fBrand" placeholder="如：大益">
+      </div>
+      <div class="form-group">
+        <label>型号</label>
+        <input type="text" id="fModel" placeholder="如：7542">
+      </div>
+      <div class="form-group">
+        <label>年份 *</label>
+        <input type="text" id="fYear" placeholder="如：2021 / 2024春">
+      </div>
+      <div class="form-group">
+        <label>产地</label>
+        <input type="text" id="fOrigin" placeholder="如：勐海">
+      </div>
+      <div class="form-group">
+        <label>规格（形态）</label>
+        <select id="fSpecType">
+          <option value="饼茶">饼茶</option>
+          <option value="沱茶">沱茶</option>
+          <option value="砖茶">砖茶</option>
+          <option value="散茶">散茶</option>
+          <option value="罐装">罐装</option>
+          <option value="袋装">袋装</option>
+          <option value="盒装">盒装</option>
+          <option value="篓装">篓装</option>
+          <option value="箩装">箩装</option>
+          <option value="其他">其他</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid" style="margin-top:12px;">
+      <div class="form-group">
+        <label>数量 *</label>
+        <input type="number" id="fQuantity" value="1" min="1" step="1" oninput="updateCalcHint()">
+      </div>
+      <div class="form-group">
+        <label>单位重量(g) *</label>
+        <input type="number" id="fUnitWeight" placeholder="如：357" min="0" step="1" oninput="updateCalcHint()">
+      </div>
+      <div class="form-group">
+        <label>单位金额(元)</label>
+        <input type="number" id="fUnitPrice" placeholder="如：280" min="0" step="0.01" oninput="updateCalcHint()">
+      </div>
+    </div>
+    <div class="form-calc-hint" id="calcHint">总重 = 数量 × 单位重量 | 总价 = 数量 × 单位金额</div>
+    <div class="form-grid" style="margin-top:12px;">
+      <div class="form-group">
+        <label>购买时间</label>
+        <input type="date" id="fPurchaseDate">
+      </div>
+      <div class="form-group">
+        <label>存放位置</label>
+        <input type="text" id="fLocation" placeholder="如：茶柜下层">
+      </div>
+      <div class="form-group">
+        <label>存放状态</label>
+        <select id="fStatus">
+          <option value="未拆封">未拆封</option>
+          <option value="已拆封">已拆封</option>
+          <option value="醒茶中">醒茶中</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid" style="margin-top:12px;">
+      <div class="form-group full">
+        <label>备注</label>
+        <input type="text" id="fNote" placeholder="备注信息">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()" style="color:var(--text);border-color:var(--border)">取消</button>
+      <button class="btn btn-accent" id="modalSaveBtn" onclick="saveItem()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Consume Modal -->
+<div class="modal-overlay" id="consumeOverlay">
+  <div class="modal">
+    <h3>➖ 消耗库存</h3>
+    <div class="form-group">
+      <label>选择茶类</label>
+      <select id="consumeCategory" onchange="renderConsumeItems()"></select>
+    </div>
+    <div style="max-height: 35vh; overflow-y: auto; margin: 8px 0;" id="consumeItemList"></div>
+    <div class="select-input-row" id="consumeInputRow" style="display:none;">
+      <label style="white-space:nowrap;font-weight:600;">消耗重量(g)：</label>
+      <input type="number" id="consumeAmount" placeholder="克数" min="1">
+      <span style="color:var(--text-secondary);font-size:12px;">（从总重量中扣除）</span>
+    </div>
+    <div class="error-msg" id="consumeError" style="color:var(--danger);font-size:12px;min-height:18px;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeConsumeModal()" style="color:var(--text);border-color:var(--border)">取消</button>
+      <button class="btn btn-warn" id="consumeSaveBtn" onclick="saveConsume()" disabled>确认消耗</button>
+    </div>
+  </div>
+</div>
+
+<!-- Awaken Modal (醒茶 - 仅生茶) -->
+<div class="modal-overlay" id="awakenOverlay">
+  <div class="modal">
+    <h3>🍃 醒茶管理（生茶专用）</h3>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;">选择需要醒茶的茶品，默认每次醒茶 1 个单位（饼/沱/砖）。醒茶后该部分茶叶将从密封状态中取出透气。</p>
+    <div style="max-height: 40vh; overflow-y: auto; margin: 8px 0;" id="awakenItemList"></div>
+    <div class="select-input-row" id="awakenInputRow" style="display:none;">
+      <label style="white-space:nowrap;font-weight:600;">醒茶单位数：</label>
+      <input type="number" id="awakenAmount" value="1" min="1" placeholder="单位数">
+      <span style="color:var(--text-secondary);font-size:12px;" id="awakenMaxHint"></span>
+    </div>
+    <!-- Current awakening list -->
+    <div id="awakenCurrentList" style="margin-top:16px;"></div>
+    <div class="error-msg" id="awakenError" style="color:var(--danger);font-size:12px;min-height:18px;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeAwakenModal()" style="color:var(--text);border-color:var(--border)">关闭</button>
+      <button class="btn btn-awake" id="awakenSaveBtn" onclick="saveAwaken()" disabled>确认醒茶</button>
+    </div>
+  </div>
+</div>
+
+<!-- Account Management Modal -->
+<div class="modal-overlay" id="accountMgmtOverlay">
+  <div class="modal" style="max-width:750px;">
+    <h3>👥 账号管理</h3>
+    <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">管理员可以在此创建、管理账号，并为每个账号分配不同权限。</p>
+
+    <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-bottom:16px;padding:12px;background:#faf7f0;border-radius:8px;">
+      <div class="form-group" style="flex:1;min-width:160px;">
+        <label>新账号名</label>
+        <input type="text" id="accNewUsername" placeholder="输入账号名" maxlength="32">
+      </div>
+      <div class="form-group" style="flex:1;min-width:130px;">
+        <label>初始密码</label>
+        <input type="password" id="accNewPassword" placeholder="至少4位" maxlength="32">
+      </div>
+      <div class="form-group" style="flex:1;min-width:130px;">
+        <label>权限级别</label>
+        <select id="accNewRole">
+          <option value="viewer">查看权限（只读）</option>
+          <option value="trial">体验权限（每功能3次试用）</option>
+          <option value="operator">操作权限（完全操作）</option>
+        </select>
+      </div>
+      <button class="btn btn-accent" onclick="doCreateAccount()" style="height:36px;align-self:flex-end;">➕ 创建</button>
+    </div>
+
+    <div style="font-weight:600;font-size:13px;margin-bottom:8px;">现有账号列表：</div>
+    <div style="overflow-x:auto;max-height:35vh;overflow-y:auto;">
+      <table class="acc-table">
+        <thead><tr><th>账号</th><th>角色</th><th>创建时间</th><th>操作</th></tr></thead>
+        <tbody id="accTableBody"></tbody>
+      </table>
+    </div>
+    <div id="accMgmtError" style="color:var(--danger);font-size:12px;min-height:18px;margin-top:8px;"></div>
+
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeAccountManagement()" style="color:var(--text);border-color:var(--border)">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+// ==================== CONFIG ====================
+const ADMIN_USERNAME = 'lxsnfuhe@163.com';
+const AUTO_LOCK_MINUTES = 15;
+const TRIAL_LIMIT = 3;
+const TRIAL_ACTIONS = ['add','edit','delete','consume','awaken','import','reset'];
+
+const TOKEN_KEY = 'tea_cloud_token';
+
+// ==================== API LAYER ====================
+let apiToken = null;
+
+function apiHeaders() {
+  return { 'Content-Type': 'application/json', 'Authorization': apiToken || '' };
+}
+
+async function apiCall(method, path, body) {
+  const opts = { method, headers: apiHeaders() };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(path, opts);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || '请求失败');
+  return data;
+}
+
+async function apiLogin(user, password, remember) {
+  const res = await fetch('/api/login', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user, password, rememberMe: !!remember })
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || '登录失败');
+  apiToken = data.token;
+  currentUser = { username: data.user, role: data.role };
+  saveSession(data.user, data.role, remember);
+  return data;
+}
+
+async function apiLoadData() { return await apiCall('GET', '/api/data'); }
+async function apiSaveData(invData) { return await apiCall('POST', '/api/save', { data: invData }); }
+async function apiChangePassword(oldPwd, newPwd) { return await apiCall('POST', '/api/change-password', { oldPassword: oldPwd, newPassword: newPwd }); }
+async function apiTrialUse(action) { return await apiCall('POST', '/api/trial-use', { action }); }
+async function apiCreateAccount(user, password, role) { return await apiCall('POST', '/api/create-account', { user, password, role }); }
+async function apiListAccounts() { return await apiCall('GET', '/api/accounts'); }
+async function apiUpdateAccount(user, updates) { return await apiCall('POST', '/api/update-account', { user, ...updates }); }
+async function apiDeleteAccount(user) { return await apiCall('POST', '/api/delete-account', { user }); }
+async function apiGetMe() { return await apiCall('GET', '/api/me'); }
+
+// ==================== ACCOUNT SYSTEM ====================
+let currentUser = null;
+let isUnlocked = false;
+
+// ==================== SESSION ====================
+function saveSession(username, role, remember) {
+  const storage = remember ? localStorage : sessionStorage;
+  storage.setItem(TOKEN_KEY, JSON.stringify({ token: apiToken, user: username, role }));
+}
+
+function restoreSession() {
+  let raw = localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
+  if (!raw) return false;
+  try {
+    const s = JSON.parse(raw);
+    if (s.token) { apiToken = s.token; currentUser = { username: s.user, role: s.role }; return true; }
+  } catch(e) {}
+  return false;
+}
+
+function clearSession() {
+  localStorage.removeItem(TOKEN_KEY);
+  sessionStorage.removeItem(TOKEN_KEY);
+  apiToken = null;
+  currentUser = null;
+  isUnlocked = false;
+}
+
+// ==================== AUTO-LOCK ====================
+let autoLockInterval = null;
+let lastActivityTime = Date.now();
+
+function resetActivityTimer() {
+  lastActivityTime = Date.now();
+  updateLockTimer();
+}
+
+function startAutoLock() {
+  if (autoLockInterval) clearInterval(autoLockInterval);
+  autoLockInterval = setInterval(() => {
+    const idle = (Date.now() - lastActivityTime) / 1000;
+    if (idle >= AUTO_LOCK_MINUTES * 60 && isUnlocked) {
+      doAutoLock();
+    }
+    updateLockTimer();
+  }, 10000);
+}
+
+function stopAutoLock() {
+  if (autoLockInterval) { clearInterval(autoLockInterval); autoLockInterval = null; }
+}
+
+function doAutoLock() {
+  isUnlocked = false;
+  clearSession();
+  stopAutoLock();
+  document.getElementById('loginOverlay').classList.remove('hidden');
+  document.getElementById('loginUsername').value = '';
+  document.getElementById('loginPassword').value = '';
+  document.getElementById('loginError').textContent = '屏幕已自动锁定（15分钟无操作）';
+  document.getElementById('loginError').style.color = '#e67e22';
+  authMode = 'login';
+  updateLoginUIForAuthMode();
+}
+
+function updateLockTimer() {
+  const el = document.getElementById('autoLockTimer');
+  if (!el) return;
+  if (!isUnlocked) { el.textContent = ''; return; }
+  const idle = Math.floor((Date.now() - lastActivityTime) / 1000);
+  const remaining = Math.max(0, AUTO_LOCK_MINUTES * 60 - idle);
+  const min = Math.floor(remaining / 60);
+  const sec = remaining % 60;
+  el.textContent = min > 0 ? `⏱ ${min}分${sec}秒后锁定` : `⏱ ${sec}秒后锁定`;
+  el.style.color = remaining < 60 ? 'var(--danger)' : '';
+}
+
+// ==================== TRIAL / PERMISSION (server-backed) ====================
+let trialRemainingCache = null;
+
+async function refreshTrialCache() {
+  if (getCurrentRole() !== 'trial' || !currentUser) { trialRemainingCache = null; return; }
+  try {
+    const me = await apiGetMe();
+    const tc = me.trialCounts || {};
+    const total = TRIAL_ACTIONS.reduce((s, a) => s + Math.max(0, TRIAL_LIMIT - (tc[a] || 0)), 0);
+    trialRemainingCache = total;
+  } catch(e) { trialRemainingCache = null; }
+}
+
+function getCurrentRole() { return currentUser?.role || 'viewer'; }
+function canView() { return true; }
+function canEdit() { const r = getCurrentRole(); return r === 'admin' || r === 'operator' || r === 'trial'; }
+function canManage() { return getCurrentRole() === 'admin'; }
+
+const ACTION_LABELS = { add:'添加', edit:'编辑', delete:'删除', consume:'消耗', awaken:'醒茶', import:'导入', reset:'清空数据' };
+
+async function checkPermThen(action, fn) {
+  if (!currentUser || !isUnlocked) { lockScreen(); return; }
+  const role = getCurrentRole();
+  if (role === 'viewer') {
+    alert('您只有查看权限，无法执行此操作。\n请联系管理员 ' + ADMIN_USERNAME + ' 获取操作权限。');
+    return;
+  }
+  if (role === 'trial' && TRIAL_ACTIONS.includes(action)) {
+    try {
+      const result = await apiTrialUse(action);
+      if (!result.allowed) {
+        alert('「' + (ACTION_LABELS[action] || action) + '」功能的体验次数已用完（共' + TRIAL_LIMIT + '次）。\n请联系管理员升级为操作权限。');
+        return;
+      }
+      trialRemainingCache = result.remaining !== null ? null : trialRemainingCache;
+      await refreshTrialCache();
+      updateTrialBadge();
+    } catch(e) {
+      alert('网络错误，请检查连接：' + e.message);
+      return;
+    }
+  }
+  resetActivityTimer();
+  fn();
+}
+
+// ==================== LOGIN / AUTH ====================
+let authMode = 'login';
+
+function showLoginUI() {
+  isUnlocked = false;
+  document.getElementById('loginOverlay').classList.remove('hidden');
+  document.getElementById('loginUsername').value = '';
+  document.getElementById('loginPassword').value = '';
+  document.getElementById('loginPasswordConfirm').value = '';
+  document.getElementById('loginError').textContent = '';
+  document.getElementById('loginError').style.color = 'var(--danger)';
+  document.getElementById('setupHint').innerHTML = '';
+  document.getElementById('confirmPwdGroup').style.display = 'none';
+  document.getElementById('rememberRow').style.display = 'flex';
+  document.getElementById('forgotLink').style.display = 'inline-block';
+
+  authMode = 'login';
+  document.getElementById('loginTitle').textContent = '☁️ 茶叶库存管理';
+  document.getElementById('loginSubtitle').textContent = '数据云端同步，多设备共享';
+  document.getElementById('loginBtn').textContent = '登录';
+  document.getElementById('loginUsername').placeholder = '输入账号';
+  document.getElementById('loginPassword').placeholder = '输入密码';
+  document.getElementById('loginUsername').disabled = false;
+  document.getElementById('loginUsername').focus();
+
+  document.getElementById('setupHint').innerHTML = '管理员账号：<strong>' + ADMIN_USERNAME + '</strong>';
+}
+
+function updateLoginUIForAuthMode() {
+  document.getElementById('loginError').textContent = '';
+  document.getElementById('loginError').style.color = 'var(--danger)';
+  document.getElementById('confirmPwdGroup').style.display = 'none';
+  document.getElementById('rememberRow').style.display = authMode === 'login' ? 'flex' : 'none';
+  document.getElementById('forgotLink').style.display = authMode === 'login' ? 'inline-block' : 'none';
+  document.getElementById('loginUsername').disabled = (authMode === 'change-pwd');
+
+  if (authMode === 'login') {
+    document.getElementById('loginTitle').textContent = '茶叶库存管理';
+    document.getElementById('loginSubtitle').textContent = '请输入账号密码解锁';
+    document.getElementById('loginBtn').textContent = '登录';
+    document.getElementById('loginUsername').placeholder = '输入账号';
+    document.getElementById('loginPassword').placeholder = '输入密码';
+  } else if (authMode === 'change-pwd') {
+    document.getElementById('loginTitle').textContent = '🔑 修改密码';
+    document.getElementById('loginSubtitle').textContent = '请输入旧密码验证身份';
+    document.getElementById('loginBtn').textContent = '验证旧密码';
+    document.getElementById('loginPassword').placeholder = '输入旧密码';
+  } else if (authMode === 'change-pwd-new') {
+    document.getElementById('loginTitle').textContent = '🔑 设置新密码';
+    document.getElementById('loginSubtitle').textContent = '旧密码已验证通过，请输入新密码';
+    document.getElementById('loginBtn').textContent = '确认修改';
+    document.getElementById('confirmPwdGroup').style.display = 'block';
+    document.getElementById('loginPassword').placeholder = '输入新密码（至少4位）';
+  }
+}
+
+async function handleLogin() {
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+  const errorEl = document.getElementById('loginError');
+  errorEl.textContent = '';
+  errorEl.style.color = 'var(--danger)';
+
+  if (!username) { errorEl.textContent = '请输入账号'; return; }
+
+  if (authMode === 'login') {
+    if (!password) { errorEl.textContent = '请输入密码'; return; }
+    const remember = document.getElementById('rememberMe').checked;
+    try {
+      await apiLogin(username, password, remember);
+      errorEl.textContent = '';
+      unlockApp();
+    } catch(e) {
+      errorEl.textContent = e.message;
+      document.getElementById('loginPassword').value = '';
+      document.getElementById('loginPassword').focus();
+    }
+  } else if (authMode === 'change-pwd') {
+    if (!password) { errorEl.textContent = '请输入旧密码'; return; }
+    // Store old password and show new password form
+    window._oldPwd = password;
+    authMode = 'change-pwd-new';
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('loginPasswordConfirm').value = '';
+    updateLoginUIForAuthMode();
+    document.getElementById('loginPassword').focus();
+  } else if (authMode === 'change-pwd-new') {
+    const confirm = document.getElementById('loginPasswordConfirm').value.trim();
+    if (password.length < 4) { errorEl.textContent = '密码至少需要4位字符'; return; }
+    if (password !== confirm) { errorEl.textContent = '两次输入的密码不一致'; return; }
+    try {
+      await apiChangePassword(window._oldPwd, password);
+      delete window._oldPwd;
+      errorEl.textContent = '';
+      unlockApp();
+    } catch(e) {
+      errorEl.textContent = e.message;
+      document.getElementById('loginPassword').value = '';
+      document.getElementById('loginPasswordConfirm').value = '';
+    }
+  }
+}
+
+async function unlockApp() {
+  isUnlocked = true;
+  document.getElementById('loginOverlay').classList.add('hidden');
+  document.getElementById('headerUser').textContent = '☁️ ' + currentUser.username;
+  updateRoleBadge();
+  updateUIForRole();
+  await refreshTrialCache();
+  updateTrialBadge();
+  startAutoLock();
+  resetActivityTimer();
+  if (!window._dataLoaded) { await loadData(); renderAll(); window._dataLoaded = true; }
+  else { renderAll(); }
+}
+
+function lockScreen() {
+  if (!isUnlocked) return;
+  isUnlocked = false;
+  clearSession();
+  stopAutoLock();
+  document.getElementById('autoLockTimer').textContent = '';
+  document.getElementById('loginOverlay').classList.remove('hidden');
+  document.getElementById('loginUsername').value = '';
+  document.getElementById('loginPassword').value = '';
+  document.getElementById('loginError').textContent = '';
+  document.getElementById('loginError').style.color = 'var(--danger)';
+  authMode = 'login';
+  updateLoginUIForAuthMode();
+  document.getElementById('loginUsername').focus();
+}
+
+function changePassword() {
+  if (!confirm('确定要修改密码吗？将先验证旧密码。')) return;
+  const savedUser = currentUser?.username;
+  lockScreen();
+  currentUser = { username: savedUser, role: 'viewer' };
+  authMode = 'change-pwd';
+  document.getElementById('loginUsername').value = savedUser;
+  updateLoginUIForAuthMode();
+  document.getElementById('loginPassword').focus();
+}
+
+function handleForgotPassword() {
+  alert('忘记密码请联系管理员 ' + ADMIN_USERNAME + ' 重置密码。\n\n管理员可登录后在「账号管理」中重置任何账号的密码。');
+}
+
+// ==================== ACCOUNT MANAGEMENT ====================
+let accountListCache = [];
+
+async function showAccountManagement() {
+  if (!canManage()) { alert('仅管理员可访问账号管理'); return; }
+  await refreshAccountList();
+  document.getElementById('accNewUsername').value = '';
+  document.getElementById('accNewPassword').value = '';
+  document.getElementById('accNewRole').value = 'viewer';
+  document.getElementById('accMgmtError').textContent = '';
+  document.getElementById('accountMgmtOverlay').classList.add('show');
+}
+
+function closeAccountManagement() {
+  document.getElementById('accountMgmtOverlay').classList.remove('show');
+}
+
+async function refreshAccountList() {
+  try { accountListCache = await apiListAccounts(); } catch(e) { accountListCache = []; }
+  renderAccountList();
+}
+
+function renderAccountList() {
+  const tbody = document.getElementById('accTableBody');
+  const entries = [...accountListCache].sort((a, b) => {
+    if (a.user === ADMIN_USERNAME) return -1;
+    if (b.user === ADMIN_USERNAME) return 1;
+    return a.user.localeCompare(b.user);
+  });
+
+  if (entries.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-secondary);padding:20px;">暂无账号</td></tr>';
+    return;
+  }
+
+  const roleLabels = { admin: '👑 管理员', operator: '🔧 操作权限', trial: '🎯 体验权限', viewer: '👁 查看权限' };
+  const roleColors = { admin: 'color:#c0392b;font-weight:700', operator: 'color:#2980b9;font-weight:600', trial: 'color:#f39c12;font-weight:600', viewer: 'color:#95a5a6' };
+
+  let html = '';
+  entries.forEach(acc => {
+    const isMe = acc.user === currentUser?.username;
+    const isAdmin = acc.user === ADMIN_USERNAME;
+    const created = acc.createdAt ? new Date(acc.createdAt).toLocaleDateString('zh-CN') : '—';
+    const roleLabel = roleLabels[acc.role] || acc.role;
+
+    let actionBtns = '';
+    if (!isAdmin) {
+      actionBtns += `<select onchange="doUpdateRole('${escHtml(acc.user)}', this.value)" style="font-size:11px;padding:2px 4px;border-radius:4px;border:1px solid var(--border);">
+        <option value="viewer"${acc.role==='viewer'?' selected':''}>查看</option>
+        <option value="trial"${acc.role==='trial'?' selected':''}>体验</option>
+        <option value="operator"${acc.role==='operator'?' selected':''}>操作</option>
+      </select>`;
+      actionBtns += `<button class="btn btn-warn btn-sm" onclick="doResetPassword('${escHtml(acc.user)}')" title="重置密码">🔑</button>`;
+      actionBtns += `<button class="btn btn-danger btn-sm" onclick="doDeleteAccount('${escHtml(acc.user)}')" title="删除账号">🗑</button>`;
+    }
+
+    html += `<tr>
+      <td>${escHtml(acc.user)}${isMe ? ' <span class="acc-you">(当前)</span>' : ''}${isAdmin ? ' <span style="color:#c0392b;font-size:11px;">🔒</span>' : ''}</td>
+      <td style="${roleColors[acc.role]||''}">${roleLabel}</td>
+      <td style="font-size:12px;color:var(--text-secondary);">${created}</td>
+      <td class="acc-actions">${actionBtns || '—'}</td>
+    </tr>`;
+  });
+
+  tbody.innerHTML = html;
+}
+
+async function doCreateAccount() {
+  const username = document.getElementById('accNewUsername').value.trim();
+  const password = document.getElementById('accNewPassword').value.trim();
+  const role = document.getElementById('accNewRole').value;
+  const errorEl = document.getElementById('accMgmtError');
+
+  if (!username) { errorEl.textContent = '请输入账号'; return; }
+  if (!password || password.length < 4) { errorEl.textContent = '密码至少4位'; return; }
+  if (!username.includes('@') || !username.includes('.')) { errorEl.textContent = '请输入有效的邮箱地址'; return; }
+
+  try {
+    await apiCreateAccount(username, password, role);
+    errorEl.textContent = '';
+    errorEl.style.color = 'var(--success)';
+    errorEl.textContent = '账号「' + username + '」创建成功！';
+    document.getElementById('accNewUsername').value = '';
+    document.getElementById('accNewPassword').value = '';
+    await refreshAccountList();
+    setTimeout(() => { errorEl.textContent = ''; errorEl.style.color = 'var(--danger)'; }, 2000);
+  } catch(e) { errorEl.textContent = e.message; }
+}
+
+async function doUpdateRole(username, newRole) {
+  if (username === ADMIN_USERNAME) { alert('不能修改管理员权限'); return; }
+  if (!confirm('确认将「' + username + '」的权限修改为「' + newRole + '」？')) {
+    renderAccountList(); return;
+  }
+  try {
+    await apiUpdateAccount(username, { role: newRole, resetTrials: newRole === 'trial' });
+    await refreshAccountList();
+    if (username === currentUser?.username) {
+      currentUser.role = newRole;
+      updateRoleBadge();
+      updateUIForRole();
+      await refreshTrialCache();
+      updateTrialBadge();
+    }
+  } catch(e) { alert('操作失败：' + e.message); renderAccountList(); }
+}
+
+async function doDeleteAccount(username) {
+  if (username === ADMIN_USERNAME) { alert('不能删除管理员账号'); return; }
+  if (!confirm('⚠️ 确定删除账号「' + username + '」吗？\n\n该账号将无法再登录，其茶叶数据也会被删除。')) return;
+  try {
+    await apiDeleteAccount(username);
+    await refreshAccountList();
+  } catch(e) { alert('操作失败：' + e.message); }
+}
+
+async function doResetPassword(username) {
+  const newPwd = prompt('为「' + username + '」设置新密码（至少4位）：');
+  if (!newPwd || newPwd.length < 4) { alert('密码至少4位'); return; }
+  try {
+    await apiUpdateAccount(username, { password: newPwd });
+    alert('「' + username + '」的密码已重置');
+    await refreshAccountList();
+  } catch(e) { alert('操作失败：' + e.message); }
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// ==================== UI HELPERS ====================
+function updateRoleBadge() {
+  const badge = document.getElementById('headerRoleBadge');
+  if (!badge) return;
+  const role = getCurrentRole();
+  const labels = { admin: '管理员', operator: '操作权限', trial: '体验权限', viewer: '查看权限' };
+  const cssMap = { admin: 'role-badge-admin', operator: 'role-badge-operator', trial: 'role-badge-trial', viewer: 'role-badge-viewer' };
+  badge.innerHTML = `<span class="role-badge ${cssMap[role]||''}">${labels[role]||role}</span>`;
+}
+
+function updateTrialBadge() {
+  const badge = document.getElementById('trialRemainingBadge');
+  if (!badge) return;
+  if (getCurrentRole() !== 'trial' || !currentUser) { badge.innerHTML = ''; return; }
+  const total = trialRemainingCache !== null ? trialRemainingCache : TRIAL_ACTIONS.length * TRIAL_LIMIT;
+  const maxTotal = TRIAL_ACTIONS.length * TRIAL_LIMIT;
+  let cssClass = total <= 3 ? 'trial-remaining warn' : 'trial-remaining';
+  badge.innerHTML = `<span class="${cssClass}">🎯 剩余试用 ${total}/${maxTotal} 次</span>`;
+}
+
+function updateUIForRole() {
+  const role = getCurrentRole();
+  const isViewer = role === 'viewer';
+  const isAdmin = role === 'admin';
+
+  // Account management button
+  document.getElementById('btnAccountMgmt').style.display = isAdmin ? 'inline-block' : 'none';
+
+  // Edit-related buttons
+  const editBtnIds = ['catAddBtn', 'catConsumeBtn', 'catAwakeBtn', 'dashAddBtn', 'dashConsumeBtn', 'dashAwakenBtn', 'btnImport', 'btnReset'];
+  editBtnIds.forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.style.display = isViewer ? 'none' : '';
+  });
+
+  // Trial badge
+  updateTrialBadge();
+
+  // Category page awake button - show only for 生茶 and non-viewer
+  if (currentCategory === '生茶' && !isViewer) {
+    document.getElementById('catAwakeBtn').style.display = 'inline-block';
+  } else if (currentCategory !== '生茶') {
+    document.getElementById('catAwakeBtn').style.display = 'none';
+  }
+}
+
+// ==================== DATA LAYER ====================
+const CATEGORIES = ['白茶','熟茶','生茶','六堡','红茶','黑茶','武夷岩茶','乌龙茶','特殊品类','茶器'];
+const CURRENT_YEAR = new Date().getFullYear();
+
+function extractYear(yearStr) {
+  if (!yearStr || typeof yearStr !== 'string') return null;
+  const match = yearStr.match(/\b(19\d{2}|20\d{2})\b/);
+  if (!match) return null;
+  const y = parseInt(match[0]);
+  return (y >= 1900 && y <= CURRENT_YEAR) ? y : null;
+}
+
+function getTeaAge(yearStr) {
+  const teaYear = extractYear(yearStr);
+  if (teaYear === null) return { years: null, label: '—', cssClass: 'age-badge-na' };
+  const age = CURRENT_YEAR - teaYear;
+  if (age < 5) return { years: age, label: '新茶', cssClass: 'age-badge-new' };
+  if (age < 10) return { years: age, label: '转化茶', cssClass: 'age-badge-transition' };
+  if (age < 15) return { years: age, label: '中期茶', cssClass: 'age-badge-mid' };
+  return { years: age, label: '老茶', cssClass: 'age-badge-aged' };
+}
+
+function itemTotalWeight(item) { return (item.unitWeight || 0) * (item.quantity || 0); }
+function itemTotalPrice(item) { return (item.unitPrice || 0) * (item.quantity || 0); }
+
+const DEFAULT_DATA = {
+  '白茶': [
+    { name:'白毫银针', brand:'品品香', model:'', year:'2023', origin:'福鼎', spec:'散茶', quantity:2, unitWeight:250, unitPrice:340, purchaseDate:'2023-03-15', location:'茶柜上层', status:'已拆封', awakeningQty:0, note:'毫香明显' },
+    { name:'寿眉饼', brand:'六妙', model:'', year:'2020', origin:'福鼎', spec:'饼茶', quantity:3, unitWeight:350, unitPrice:160, purchaseDate:'2021-06-20', location:'茶柜下层', status:'未拆封', awakeningQty:0, note:'' },
+    { name:'白牡丹', brand:'品品香', model:'', year:'2022', origin:'福鼎', spec:'散茶', quantity:1, unitWeight:200, unitPrice:320, purchaseDate:'2022-11-08', location:'茶柜中层', status:'已拆封', awakeningQty:0, note:'' },
+    { name:'老白茶饼', brand:'绿雪芽', model:'', year:'2010', origin:'福鼎', spec:'饼茶', quantity:1, unitWeight:350, unitPrice:1200, purchaseDate:'2015-01-10', location:'茶柜下层', status:'未拆封', awakeningQty:0, note:'16年老茶' },
+  ],
+  '熟茶': [
+    { name:'大益7572', brand:'大益', model:'7572', year:'2019', origin:'勐海', spec:'饼茶', quantity:2, unitWeight:357, unitPrice:160, purchaseDate:'2020-01-15', location:'茶柜下层', status:'已拆封', awakeningQty:0, note:'经典标杆' },
+    { name:'金针白莲', brand:'大益', model:'', year:'2020', origin:'勐海', spec:'饼茶', quantity:1, unitWeight:357, unitPrice:450, purchaseDate:'2021-03-10', location:'茶柜中层', status:'未拆封', awakeningQty:0, note:'' },
+    { name:'老茶头', brand:'澜沧古茶', model:'', year:'2008', origin:'勐海', spec:'罐装', quantity:1, unitWeight:200, unitPrice:880, purchaseDate:'2015-06-01', location:'茶柜下层', status:'已拆封', awakeningQty:0, note:'18年陈' },
+  ],
+  '生茶': [
+    { name:'大益7542', brand:'大益', model:'7542', year:'2021', origin:'勐海', spec:'饼茶', quantity:2, unitWeight:357, unitPrice:140, purchaseDate:'2022-05-20', location:'茶柜下层', status:'已拆封', awakeningQty:0, note:'' },
+    { name:'下关甲沱', brand:'下关', model:'甲沱', year:'2018', origin:'大理', spec:'沱茶', quantity:4, unitWeight:100, unitPrice:40, purchaseDate:'2019-08-12', location:'茶柜下层', status:'已拆封', awakeningQty:1, note:'烟香浓郁' },
+    { name:'陈升号老班章', brand:'陈升号', model:'', year:'2011', origin:'勐海', spec:'饼茶', quantity:1, unitWeight:357, unitPrice:3500, purchaseDate:'2013-04-08', location:'茶柜下层', status:'未拆封', awakeningQty:0, note:'15年陈' },
+  ],
+  '六堡': [
+    { name:'三鹤六堡茶', brand:'三鹤', model:'', year:'2015', origin:'梧州', spec:'箩装', quantity:1, unitWeight:500, unitPrice:680, purchaseDate:'2018-09-01', location:'茶柜中层', status:'已拆封', awakeningQty:0, note:'陈香槟榔香' },
+  ],
+  '红茶': [
+    { name:'正山小种', brand:'正山堂', model:'', year:'2024', origin:'武夷山', spec:'罐装', quantity:2, unitWeight:100, unitPrice:180, purchaseDate:'2024-04-10', location:'茶柜上层', status:'已拆封', awakeningQty:0, note:'松烟香' },
+    { name:'金骏眉', brand:'正山堂', model:'', year:'2024', origin:'武夷山', spec:'罐装', quantity:1, unitWeight:50, unitPrice:560, purchaseDate:'2024-04-10', location:'茶柜上层', status:'未拆封', awakeningQty:0, note:'' },
+  ],
+  '黑茶': [
+    { name:'白沙溪天尖', brand:'白沙溪', model:'', year:'2018', origin:'安化', spec:'篓装', quantity:1, unitWeight:1000, unitPrice:450, purchaseDate:'2020-11-05', location:'储藏室', status:'已拆封', awakeningQty:0, note:'' },
+  ],
+  '武夷岩茶': [
+    { name:'肉桂', brand:'武夷星', model:'', year:'2023', origin:'武夷山', spec:'罐装', quantity:2, unitWeight:125, unitPrice:260, purchaseDate:'2023-10-15', location:'茶柜上层', status:'已拆封', awakeningQty:0, note:'中火' },
+    { name:'水仙', brand:'武夷星', model:'', year:'2023', origin:'武夷山', spec:'罐装', quantity:1, unitWeight:125, unitPrice:380, purchaseDate:'2023-10-15', location:'茶柜上层', status:'已拆封', awakeningQty:0, note:'' },
+  ],
+  '乌龙茶': [
+    { name:'铁观音', brand:'八马', model:'', year:'2024', origin:'安溪', spec:'罐装', quantity:2, unitWeight:250, unitPrice:140, purchaseDate:'2024-05-20', location:'茶柜中层', status:'已拆封', awakeningQty:0, note:'清香型' },
+    { name:'凤凰单丛', brand:'天池', model:'', year:'2023', origin:'潮州', spec:'罐装', quantity:1, unitWeight:150, unitPrice:420, purchaseDate:'2023-09-08', location:'茶柜中层', status:'已拆封', awakeningQty:0, note:'鸭屎香' },
+  ],
+  '特殊品类': [
+    { name:'茉莉花茶', brand:'张一元', model:'', year:'2024', origin:'福州', spec:'罐装', quantity:1, unitWeight:200, unitPrice:180, purchaseDate:'2024-06-15', location:'茶柜上层', status:'已拆封', awakeningQty:0, note:'七窨' },
+    { name:'陈皮普洱', brand:'柑润堂', model:'', year:'2022', origin:'新会', spec:'罐装', quantity:1, unitWeight:250, unitPrice:320, purchaseDate:'2023-01-20', location:'茶柜中层', status:'已拆封', awakeningQty:0, note:'' },
+  ],
+  '茶器': [
+    { name:'紫砂壶-西施', brand:'宜兴', model:'', year:'', origin:'宜兴', spec:'其他', quantity:1, unitWeight:0, unitPrice:680, purchaseDate:'2022-08-15', location:'博古架', status:'', awakeningQty:0, note:'朱泥' },
+    { name:'盖碗', brand:'景德镇', model:'', year:'', origin:'景德镇', spec:'其他', quantity:2, unitWeight:0, unitPrice:60, purchaseDate:'2023-03-20', location:'茶台', status:'', awakeningQty:0, note:'青花' },
+    { name:'公道杯', brand:'—', model:'', year:'', origin:'—', spec:'其他', quantity:1, unitWeight:0, unitPrice:85, purchaseDate:'2023-01-10', location:'茶台', status:'', awakeningQty:0, note:'玻璃' },
+  ],
+};
+
+let data = {};
+
+function ensureDataDefaults(item) {
+  return {
+    name: item.name || '', brand: item.brand || '', model: item.model || '',
+    year: item.year || '', origin: item.origin || '', spec: item.spec || '饼茶',
+    quantity: item.quantity || 1, unitWeight: item.unitWeight || 0, unitPrice: item.unitPrice || 0,
+    purchaseDate: item.purchaseDate || '', location: item.location || '',
+    status: item.status || '未拆封', awakeningQty: item.awakeningQty || 0, note: item.note || '',
+  };
+}
+
+async function loadData() {
+  try {
+    const cloud = await apiLoadData();
+    data = {};
+    CATEGORIES.forEach(c => { data[c] = (cloud[c] || []).map(ensureDataDefaults); });
+    if (Object.values(data).every(arr => arr.length === 0)) {
+      // First time: seed with default demo data
+      data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      await apiSaveData(data);
+    }
+  } catch(e) {
+    console.warn('云端加载失败，使用默认数据', e.message);
+    data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  }
+  CATEGORIES.forEach(c => { if (!data[c]) data[c] = []; });
+}
+
+async function saveData() {
+  try { await apiSaveData(data); } catch(e) { console.warn('云端保存失败', e.message); }
+}
+
+function resetAll() {
+  if (confirm('确定要清空所有茶叶数据并恢复为示例数据吗？')) {
+    data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    saveData();
+    renderAll();
+  }
+}
+
+// ==================== RENDER ====================
+let currentCategory = 'dashboard';
+let charts = {};
+let editIndex = null;
+let modalFromDashboard = false;
+
+function renderAll() {
+  renderTabNav();
+  if (currentCategory === 'dashboard') renderDashboard();
+  else renderCategory(currentCategory);
+  updateUIForRole();
+}
+
+function renderTabNav() {
+  const nav = document.getElementById('tabNav');
+  const counts = {};
+  CATEGORIES.forEach(c => counts[c] = data[c] ? data[c].length : 0);
+
+  let html = `<button class="tab-btn${currentCategory==='dashboard'?' active':''}" onclick="switchTab('dashboard')">📊 仪表盘</button>`;
+  CATEGORIES.forEach(c => {
+    const awakeN = (data[c]||[]).reduce((s,i)=>s+(i.awakeningQty||0), 0);
+    let badge = `<span class="badge">${counts[c]}</span>`;
+    if (awakeN > 0) badge += `<span class="awake-badge">醒${awakeN}</span>`;
+    html += `<button class="tab-btn${currentCategory===c?' active':''}" onclick="switchTab('${c}')">${c}${badge}</button>`;
+  });
+  nav.innerHTML = html;
+}
+
+function switchTab(tab) {
+  currentCategory = tab;
+  document.getElementById('tab-dashboard').style.display = tab === 'dashboard' ? 'block' : 'none';
+  document.getElementById('tab-category').style.display = tab !== 'dashboard' ? 'block' : 'none';
+  renderAll();
+}
+
+function getAggregates() {
+  let totalItems = 0, totalWeight = 0, totalValue = 0, catCountNonEmpty = 0;
+  const catSummary = {};
+  const ageDist = { '新茶': { count:0, weight:0 }, '转化茶': { count:0, weight:0 }, '中期茶': { count:0, weight:0 }, '老茶': { count:0, weight:0 } };
+  let totalAwakeningUnits = 0;
+
+  CATEGORIES.forEach(c => {
+    const items = data[c] || [];
+    if (items.length > 0) catCountNonEmpty++;
+    let cw = 0, cv = 0;
+    items.forEach(item => {
+      const tw = itemTotalWeight(item);
+      const tv = itemTotalPrice(item);
+      cw += tw; cv += tv;
+      const ageInfo = getTeaAge(item.year);
+      if (ageInfo.label !== '—') { ageDist[ageInfo.label].count++; ageDist[ageInfo.label].weight += tw; }
+      totalAwakeningUnits += (item.awakeningQty || 0);
+    });
+    totalItems += items.length; totalWeight += cw; totalValue += cv;
+    catSummary[c] = { count: items.length, weight: cw, value: cv, awakeningUnits: items.reduce((s,i)=>s+(i.awakeningQty||0),0) };
+  });
+
+  return { totalItems, catCount: catCountNonEmpty, totalWeight, totalValue, catSummary, ageDist, totalAwakeningUnits };
+}
+
+function renderDashboard() {
+  const { totalItems, catCount, totalWeight, totalValue, catSummary, ageDist, totalAwakeningUnits } = getAggregates();
+
+  let wd = totalWeight, wu = 'g';
+  if (totalWeight >= 1000) { wd = (totalWeight/1000).toFixed(2); wu = 'kg'; }
+  let vd = totalValue, vu = '元';
+  if (totalValue >= 10000) { vd = (totalValue/10000).toFixed(2); vu = '万元'; }
+
+  let html = `
+  <div class="kpi-row">
+    <div class="kpi-card"><div class="kpi-label">库存总款数</div><div class="kpi-value">${totalItems}</div><div class="kpi-unit">${catCount} 个茶类</div></div>
+    <div class="kpi-card"><div class="kpi-label">库存总重量</div><div class="kpi-value">${wd}</div><div class="kpi-unit">${wu}</div></div>
+    <div class="kpi-card"><div class="kpi-label">库存总价值</div><div class="kpi-value">${vd}</div><div class="kpi-unit">${vu}</div></div>
+    <div class="kpi-card"><div class="kpi-label">🍃 醒茶中</div><div class="kpi-value">${totalAwakeningUnits}</div><div class="kpi-unit">个单位正在醒茶</div></div>
+  </div>
+
+  <div class="quick-actions">
+    <button class="btn btn-add" id="dashAddBtn" onclick="checkPermThen('add',openAddFromDashboard)">➕ 新增库存</button>
+    <button class="btn btn-consume" id="dashConsumeBtn" onclick="checkPermThen('consume',openConsumeModal)">➖ 消耗库存</button>
+    <button class="btn btn-awake-dash" id="dashAwakenBtn" onclick="checkPermThen('awaken',openAwakenModal)">🍃 醒茶管理</button>
+  </div>
+
+  <div class="age-row">
+    <div class="age-card age-new"><div class="age-label"><span class="age-dot"></span>新茶</div><div class="age-count">${ageDist['新茶'].count}</div><div class="age-weight">共 ${ageDist['新茶'].weight}g | &lt;5年</div></div>
+    <div class="age-card age-transition"><div class="age-label"><span class="age-dot"></span>转化茶</div><div class="age-count">${ageDist['转化茶'].count}</div><div class="age-weight">共 ${ageDist['转化茶'].weight}g | 5~10年</div></div>
+    <div class="age-card age-mid"><div class="age-label"><span class="age-dot"></span>中期茶</div><div class="age-count">${ageDist['中期茶'].count}</div><div class="age-weight">共 ${ageDist['中期茶'].weight}g | 10~15年</div></div>
+    <div class="age-card age-aged"><div class="age-label"><span class="age-dot"></span>老茶</div><div class="age-count">${ageDist['老茶'].count}</div><div class="age-weight">共 ${ageDist['老茶'].weight}g | &gt;15年</div></div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-card"><h3>按茶类重量分布 (g)</h3><canvas id="chartWeight"></canvas></div>
+    <div class="chart-card"><h3>按茶类价值分布 (元)</h3><canvas id="chartValue"></canvas></div>
+  </div>
+
+  <div class="summary-card">
+    <h3>按茶类汇总（点击茶类名可跳转）</h3>
+    <table>
+      <thead><tr><th>茶类</th><th>款数</th><th>总重量(g)</th><th>总价值(元)</th><th>均价(元/g)</th><th>代表茶龄</th><th>醒茶</th></tr></thead>
+      <tbody>`;
+
+  CATEGORIES.forEach(c => {
+    const s = catSummary[c];
+    const avg = s.weight > 0 ? (s.value / s.weight).toFixed(2) : '0.00';
+    const items = data[c] || [];
+    const ageLabels = items.map(item => getTeaAge(item.year).label).filter(l => l !== '—');
+    let ageSummary = '—';
+    if (ageLabels.length > 0) {
+      const cnts = {};
+      ageLabels.forEach(l => cnts[l] = (cnts[l]||0) + 1);
+      const top = Object.entries(cnts).sort((a,b) => b[1]-a[1])[0];
+      ageSummary = top[0] + '(' + top[1] + '款)';
+    }
+    const awakeStr = s.awakeningUnits > 0 ? `<span style="color:var(--awake);font-weight:600;">🍃 ${s.awakeningUnits}单位</span>` : '—';
+    html += `<tr onclick="switchTab('${c}')" title="点击跳转到${c}分类">
+      <td><span class="cat-link">${c}</span></td><td>${s.count} 款</td><td>${s.weight}g</td><td>¥${s.value.toFixed(2)}</td><td>¥${avg}/g</td><td>${ageSummary}</td><td>${awakeStr}</td></tr>`;
+  });
+
+  html += `</tbody></table></div>`;
+  document.getElementById('tab-dashboard').innerHTML = html;
+  renderCharts(catSummary);
+}
+
+function renderCharts(catSummary) {
+  if (charts.weight) charts.weight.destroy();
+  if (charts.value) charts.value.destroy();
+  const labels = CATEGORIES;
+  const weightData = CATEGORIES.map(c => catSummary[c].weight);
+  const valueData = CATEGORIES.map(c => catSummary[c].value);
+  const colors = ['#a3c9a3','#c4956a','#8fbc8f','#6b5b3a','#c44e4e','#4a4a4a','#8b6914','#c4833e','#9b59b6','#7f8c8d'];
+
+  const ctxW = document.getElementById('chartWeight');
+  if (ctxW) charts.weight = new Chart(ctxW, { type:'bar', data:{ labels, datasets:[{ label:'重量(g)', data:weightData, backgroundColor:colors, borderRadius:4 }] }, options:{ responsive:true, maintainAspectRatio:true, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, title:{ display:true, text:'重量(g)' } } } } });
+
+  const ctxV = document.getElementById('chartValue');
+  if (ctxV) charts.value = new Chart(ctxV, { type:'bar', data:{ labels, datasets:[{ label:'价值(元)', data:valueData, backgroundColor:colors, borderRadius:4 }] }, options:{ responsive:true, maintainAspectRatio:true, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, title:{ display:true, text:'价值(元)' } } } } });
+}
+
+function renderCategory(cat) {
+  document.getElementById('catTitle').textContent = cat + ' 库存明细';
+  document.getElementById('catAwakeBtn').style.display = (cat === '生茶' && getCurrentRole() !== 'viewer') ? 'inline-block' : 'none';
+
+  const items = data[cat] || [];
+  let subtotalWeight = 0, subtotalValue = 0;
+
+  let html = '';
+  items.forEach((item, idx) => {
+    const tw = itemTotalWeight(item);
+    const tv = itemTotalPrice(item);
+    subtotalWeight += tw;
+    subtotalValue += tv;
+    const ageInfo = getTeaAge(item.year);
+    const awakeStr = (item.awakeningQty||0) > 0 ? ` <span class="awake-indicator">🍃醒${item.awakeningQty}</span>` : '';
+    const canEditBtns = getCurrentRole() !== 'viewer';
+
+    html += `<tr>
+      <td class="col-num">${idx+1}</td>
+      <td style="font-weight:500">${esc(item.name)}</td>
+      <td>${esc(item.brand)}</td>
+      <td class="col-highlight">${esc(item.model)}</td>
+      <td>${esc(item.year)}</td>
+      <td><span class="age-badge ${ageInfo.cssClass}">${ageInfo.label}</span></td>
+      <td>${esc(item.origin)}</td>
+      <td>${esc(item.spec)}</td>
+      <td>${item.quantity||1}</td>
+      <td>${item.unitWeight||0}</td>
+      <td class="col-highlight">${tw}</td>
+      <td>¥${(item.unitPrice||0).toFixed(0)}</td>
+      <td class="col-highlight">¥${tv.toFixed(0)}</td>
+      <td>${esc(item.purchaseDate)}</td>
+      <td>${esc(item.location)}</td>
+      <td>${esc(item.status)}${awakeStr}</td>
+      <td style="font-size:11px;color:var(--text-secondary);max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(item.note)}">${esc(item.note)}</td>
+      <td>${canEditBtns ? `
+        <button class="btn btn-outline btn-sm" onclick="checkPermThen('edit',()=>openEditModal('${cat}',${idx}))" style="color:var(--accent);border-color:var(--accent-light)">编辑</button>
+        <button class="btn btn-danger btn-sm" onclick="checkPermThen('delete',()=>deleteItem('${cat}',${idx}))">删除</button>
+      ` : '<span style="font-size:11px;color:var(--text-secondary);">只读</span>'}</td>
+    </tr>`;
+  });
+
+  html += `<tr class="subtotal-row">
+    <td colspan="4" style="text-align:right">小计：${items.length} 款</td>
+    <td colspan="4">—</td>
+    <td>—</td><td>—</td>
+    <td>${subtotalWeight}g</td><td>—</td>
+    <td>¥${subtotalValue.toFixed(0)}</td>
+    <td colspan="5">—</td>
+    <td></td>
+  </tr>`;
+
+  if (items.length === 0) html = `<tr><td colspan="18" class="empty-state">暂无数据，点击「➕ 添加」开始记录</td></tr>`;
+  document.getElementById('catTableBody').innerHTML = html;
+}
+
+function esc(str) {
+  if (str === null || str === undefined) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ==================== ADD / EDIT MODAL ====================
+function updateCalcHint() {
+  const qty = parseInt(document.getElementById('fQuantity').value) || 1;
+  const uw = parseFloat(document.getElementById('fUnitWeight').value) || 0;
+  const up = parseFloat(document.getElementById('fUnitPrice').value) || 0;
+  document.getElementById('calcHint').textContent = `📐 预计算：总重 = ${qty} × ${uw}g = ${(qty*uw).toFixed(0)}g | 总价 = ${qty} × ¥${up} = ¥${(qty*up).toFixed(2)}`;
+}
+
+function openAddFromDashboard() {
+  modalFromDashboard = true; editIndex = null;
+  document.getElementById('modalTitle').textContent = '新增库存（从仪表盘）';
+  document.getElementById('modalSaveBtn').textContent = '添加';
+  document.getElementById('formCatGroup').style.display = 'block';
+  document.getElementById('fCategory').innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
+  clearForm();
+  document.getElementById('modalOverlay').classList.add('show');
+  updateCalcHint();
+}
+
+function openAddModal() {
+  modalFromDashboard = false; editIndex = null;
+  document.getElementById('modalTitle').textContent = '添加茶叶';
+  document.getElementById('modalSaveBtn').textContent = '添加';
+  document.getElementById('formCatGroup').style.display = 'none';
+  clearForm();
+  document.getElementById('modalOverlay').classList.add('show');
+  updateCalcHint();
+}
+
+function openEditModal(cat, idx) {
+  modalFromDashboard = false;
+  editIndex = { cat, idx };
+  const item = data[cat][idx];
+  document.getElementById('modalTitle').textContent = '编辑茶叶';
+  document.getElementById('modalSaveBtn').textContent = '保存修改';
+  document.getElementById('formCatGroup').style.display = 'none';
+  document.getElementById('fName').value = item.name || '';
+  document.getElementById('fBrand').value = item.brand || '';
+  document.getElementById('fModel').value = item.model || '';
+  document.getElementById('fYear').value = item.year || '';
+  document.getElementById('fOrigin').value = item.origin || '';
+  document.getElementById('fSpecType').value = item.spec || '饼茶';
+  document.getElementById('fQuantity').value = item.quantity || 1;
+  document.getElementById('fUnitWeight').value = item.unitWeight || 0;
+  document.getElementById('fUnitPrice').value = item.unitPrice || 0;
+  document.getElementById('fPurchaseDate').value = item.purchaseDate || '';
+  document.getElementById('fLocation').value = item.location || '';
+  document.getElementById('fStatus').value = item.status || '未拆封';
+  document.getElementById('fNote').value = item.note || '';
+  document.getElementById('modalOverlay').classList.add('show');
+  updateCalcHint();
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.remove('show'); modalFromDashboard = false; }
+
+function clearForm() {
+  ['fName','fBrand','fModel','fYear','fOrigin','fLocation','fNote'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('fSpecType').value = '饼茶';
+  document.getElementById('fQuantity').value = 1;
+  document.getElementById('fUnitWeight').value = '';
+  document.getElementById('fUnitPrice').value = '';
+  document.getElementById('fPurchaseDate').value = '';
+  document.getElementById('fStatus').value = '未拆封';
+}
+
+function saveItem() {
+  const name = document.getElementById('fName').value.trim();
+  const year = document.getElementById('fYear').value.trim();
+  const qty = parseInt(document.getElementById('fQuantity').value) || 1;
+  const unitWeight = parseFloat(document.getElementById('fUnitWeight').value) || 0;
+  const unitPrice = parseFloat(document.getElementById('fUnitPrice').value) || 0;
+
+  if (!name) { alert('请输入品种/名称'); return; }
+  if (modalFromDashboard && !year) { alert('请输入年份（用于自动判断茶龄）'); return; }
+
+  let targetCat = editIndex ? editIndex.cat : (modalFromDashboard ? document.getElementById('fCategory').value : currentCategory);
+  if (!targetCat) { alert('请选择茶类'); return; }
+
+  const item = {
+    name, brand: document.getElementById('fBrand').value.trim(),
+    model: document.getElementById('fModel').value.trim(),
+    year, origin: document.getElementById('fOrigin').value.trim(),
+    spec: document.getElementById('fSpecType').value,
+    quantity: qty, unitWeight, unitPrice,
+    purchaseDate: document.getElementById('fPurchaseDate').value,
+    location: document.getElementById('fLocation').value.trim(),
+    status: document.getElementById('fStatus').value,
+    awakeningQty: editIndex ? (data[editIndex.cat][editIndex.idx].awakeningQty || 0) : 0,
+    note: document.getElementById('fNote').value.trim(),
+  };
+
+  if (editIndex) {
+    data[editIndex.cat][editIndex.idx] = item;
+  } else {
+    if (!data[targetCat]) data[targetCat] = [];
+    data[targetCat].push(item);
+  }
+
+  saveData();
+  closeModal();
+  editIndex = null; modalFromDashboard = false;
+  if (targetCat && modalFromDashboard) currentCategory = 'dashboard';
+  renderAll();
+}
+
+function deleteItem(cat, idx) {
+  if (confirm(`确定删除「${data[cat][idx].name}」吗？`)) {
+    data[cat].splice(idx, 1);
+    saveData();
+    renderAll();
+  }
+}
+
+// ==================== CONSUME MODAL ====================
+let consumeSelectedCat = null, consumeSelectedIdx = null;
+
+function openConsumeModal() {
+  consumeSelectedCat = null; consumeSelectedIdx = null;
+  document.getElementById('consumeCategory').innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}（${(data[c]||[]).length}款）</option>`).join('');
+  document.getElementById('consumeItemList').innerHTML = '<div class="empty-state" style="padding:20px">请先选择茶类</div>';
+  document.getElementById('consumeInputRow').style.display = 'none';
+  document.getElementById('consumeAmount').value = '';
+  document.getElementById('consumeError').textContent = '';
+  document.getElementById('consumeSaveBtn').disabled = true;
+  document.getElementById('consumeOverlay').classList.add('show');
+  renderConsumeItems();
+}
+
+function openConsumeFromCategory() {
+  consumeSelectedCat = currentCategory; consumeSelectedIdx = null;
+  document.getElementById('consumeCategory').innerHTML = `<option value="${currentCategory}" selected>${currentCategory}（${(data[currentCategory]||[]).length}款）</option>`;
+  document.getElementById('consumeInputRow').style.display = 'none';
+  document.getElementById('consumeAmount').value = '';
+  document.getElementById('consumeError').textContent = '';
+  document.getElementById('consumeSaveBtn').disabled = true;
+  document.getElementById('consumeOverlay').classList.add('show');
+  renderConsumeItems();
+}
+
+function closeConsumeModal() { document.getElementById('consumeOverlay').classList.remove('show'); consumeSelectedCat = null; consumeSelectedIdx = null; }
+
+function renderConsumeItems() {
+  const cat = document.getElementById('consumeCategory').value;
+  consumeSelectedCat = cat; consumeSelectedIdx = null;
+  document.getElementById('consumeInputRow').style.display = 'none';
+  document.getElementById('consumeAmount').value = '';
+  document.getElementById('consumeError').textContent = '';
+  document.getElementById('consumeSaveBtn').disabled = true;
+
+  const items = data[cat] || [];
+  if (items.length === 0) {
+    document.getElementById('consumeItemList').innerHTML = '<div class="empty-state" style="padding:20px">该分类暂无库存</div>';
+    return;
+  }
+
+  let html = '';
+  items.forEach((item, idx) => {
+    const tw = itemTotalWeight(item);
+    if (tw <= 0) return;
+    html += `<div class="select-item-row" onclick="selectConsumeItem(${idx})" id="consumeRow${idx}">
+      <div class="item-info"><div class="item-name">${esc(item.name)}</div><div class="item-meta">${esc(item.year)} | ${esc(item.spec)} | ${esc(item.status||'—')}</div></div>
+      <div class="item-stats">${tw}g | ${item.quantity}${item.spec}</div>
+    </div>`;
+  });
+
+  if (!html) html = '<div class="empty-state" style="padding:20px">该分类所有茶品重量均为0</div>';
+  document.getElementById('consumeItemList').innerHTML = html;
+}
+
+function selectConsumeItem(idx) {
+  consumeSelectedIdx = idx;
+  document.querySelectorAll('#consumeItemList .select-item-row').forEach(el => el.classList.remove('selected'));
+  const row = document.getElementById('consumeRow' + idx);
+  if (row) row.classList.add('selected');
+  document.getElementById('consumeInputRow').style.display = 'flex';
+  document.getElementById('consumeAmount').value = '';
+  document.getElementById('consumeAmount').focus();
+  document.getElementById('consumeError').textContent = '';
+  document.getElementById('consumeSaveBtn').disabled = true;
+
+  const amtInput = document.getElementById('consumeAmount');
+  amtInput.oninput = function() {
+    const amt = parseFloat(amtInput.value);
+    const item = data[consumeSelectedCat][consumeSelectedIdx];
+    const maxW = item ? itemTotalWeight(item) : 0;
+    if (!amt || amt <= 0) { document.getElementById('consumeError').textContent = ''; document.getElementById('consumeSaveBtn').disabled = true; }
+    else if (amt > maxW) { document.getElementById('consumeError').textContent = '消耗量不能超过当前总重 ' + maxW + 'g'; document.getElementById('consumeSaveBtn').disabled = true; }
+    else { document.getElementById('consumeError').textContent = '将扣除 ' + amt + 'g，剩余 ' + (maxW - amt) + 'g'; document.getElementById('consumeError').style.color = 'var(--text-secondary)'; document.getElementById('consumeSaveBtn').disabled = false; }
+  };
+}
+
+function saveConsume() {
+  if (!consumeSelectedCat || consumeSelectedIdx === null) return;
+  const amt = parseFloat(document.getElementById('consumeAmount').value);
+  if (!amt || amt <= 0) return;
+
+  const item = data[consumeSelectedCat][consumeSelectedIdx];
+  const oldTotal = itemTotalWeight(item);
+  if (amt > oldTotal) return;
+
+  const newTotal = Math.max(0, oldTotal - amt);
+  if (item.unitWeight > 0) {
+    item.quantity = Math.max(0, Math.round(newTotal / item.unitWeight));
+  } else {
+    item.quantity = Math.max(0, amt >= oldTotal ? item.quantity - 1 : item.quantity);
+  }
+  if (item.quantity <= 0) { item.quantity = 0; item.status = '已消耗完'; }
+
+  saveData(); closeConsumeModal(); renderAll();
+  alert(`已从「${item.name}」消耗 ${amt}g（剩余 ${itemTotalWeight(item)}g）`);
+}
+
+// ==================== AWAKEN MODAL ====================
+let awakenSelectedIdx = null;
+
+function openAwakenModal() {
+  awakenSelectedIdx = null;
+  document.getElementById('awakenItemList').innerHTML = renderAwakenList();
+  document.getElementById('awakenInputRow').style.display = 'none';
+  document.getElementById('awakenAmount').value = '1';
+  document.getElementById('awakenMaxHint').textContent = '';
+  document.getElementById('awakenError').textContent = '';
+  document.getElementById('awakenSaveBtn').disabled = true;
+  renderAwakenCurrent();
+  document.getElementById('awakenOverlay').classList.add('show');
+}
+
+function openAwakenFromCategory() {
+  awakenSelectedIdx = null;
+  document.getElementById('awakenItemList').innerHTML = renderAwakenList();
+  document.getElementById('awakenInputRow').style.display = 'none';
+  document.getElementById('awakenAmount').value = '1';
+  document.getElementById('awakenMaxHint').textContent = '';
+  document.getElementById('awakenError').textContent = '';
+  document.getElementById('awakenSaveBtn').disabled = true;
+  renderAwakenCurrent();
+  document.getElementById('awakenOverlay').classList.add('show');
+}
+
+function closeAwakenModal() {
+  document.getElementById('awakenOverlay').classList.remove('show');
+  awakenSelectedIdx = null;
+}
+
+function renderAwakenList() {
+  const items = data['生茶'] || [];
+  if (items.length === 0) return '<div class="empty-state" style="padding:20px">生茶暂无库存</div>';
+
+  let html = '<div style="font-weight:600;margin-bottom:8px;font-size:13px;">选择要醒茶的茶品：</div>';
+  items.forEach((item, idx) => {
+    if (item.quantity <= 0) return;
+    const available = item.quantity - (item.awakeningQty || 0);
+    if (available <= 0 && (item.awakeningQty||0) > 0) return;
+    html += `<div class="select-item-row" onclick="selectAwakenItem(${idx})" id="awakenRow${idx}">
+      <div class="item-info">
+        <div class="item-name">${esc(item.name)} ${esc(item.model)}</div>
+        <div class="item-meta">${esc(item.year)} | ${esc(item.spec)} | ${item.status} | 共${item.quantity}${item.spec} | 总${itemTotalWeight(item)}g</div>
+      </div>
+      <div class="item-stats">可醒: ${available}${item.spec}</div>
+    </div>`;
+  });
+
+  if (html.indexOf('select-item-row') === -1) return '<div class="empty-state" style="padding:20px">所有生茶已全部在醒茶或已消耗完</div>';
+  return html;
+}
+
+function selectAwakenItem(idx) {
+  awakenSelectedIdx = idx;
+  document.querySelectorAll('#awakenItemList .select-item-row').forEach(el => el.classList.remove('selected'));
+  const row = document.getElementById('awakenRow' + idx);
+  if (row) row.classList.add('selected');
+
+  const item = data['生茶'][idx];
+  const available = item.quantity - (item.awakeningQty || 0);
+  document.getElementById('awakenInputRow').style.display = 'flex';
+  document.getElementById('awakenAmount').value = '1';
+  document.getElementById('awakenAmount').max = available;
+  document.getElementById('awakenMaxHint').textContent = `（最大可醒 ${available} ${item.spec}）`;
+  document.getElementById('awakenError').textContent = '';
+  document.getElementById('awakenSaveBtn').disabled = false;
+
+  const amtInput = document.getElementById('awakenAmount');
+  amtInput.oninput = function() {
+    const amt = parseInt(amtInput.value) || 0;
+    if (amt <= 0) { document.getElementById('awakenError').textContent = '请输入至少1个单位'; document.getElementById('awakenSaveBtn').disabled = true; }
+    else if (amt > available) { document.getElementById('awakenError').textContent = '醒茶单位数不能超过可醒数量 ' + available; document.getElementById('awakenSaveBtn').disabled = true; }
+    else { document.getElementById('awakenError').textContent = `将为「${item.name}」醒茶 ${amt} ${item.spec}`; document.getElementById('awakenError').style.color = 'var(--awake)'; document.getElementById('awakenSaveBtn').disabled = false; }
+  };
+}
+
+function renderAwakenCurrent() {
+  const container = document.getElementById('awakenCurrentList');
+  const items = data['生茶'] || [];
+  const awakeItems = items.filter(item => (item.awakeningQty || 0) > 0);
+  if (awakeItems.length === 0) { container.innerHTML = ''; return; }
+
+  let html = '<div style="font-weight:600;margin-top:12px;font-size:13px;color:var(--awake);">🍃 当前正在醒茶的茶品：</div>';
+  awakeItems.forEach((item) => {
+    const realIdx = items.indexOf(item);
+    html += `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;margin:4px 0;background:#f3e5f5;border-radius:6px;font-size:13px;">
+      <span><strong>${esc(item.name)}</strong> — 醒茶 <span style="color:var(--awake);font-weight:700;">${item.awakeningQty}</span> ${item.spec}</span>
+      <button class="btn btn-awake btn-sm" onclick="checkPermThen('awaken',()=>finishAwaken(${realIdx}))" title="完成醒茶，恢复到已拆封状态">✅ 完成醒茶</button>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+function saveAwaken() {
+  if (awakenSelectedIdx === null) return;
+  const amt = parseInt(document.getElementById('awakenAmount').value) || 0;
+  if (amt <= 0) return;
+
+  const item = data['生茶'][awakenSelectedIdx];
+  const available = item.quantity - (item.awakeningQty || 0);
+  if (amt > available) { document.getElementById('awakenError').textContent = '醒茶单位数超限'; return; }
+
+  item.awakeningQty = (item.awakeningQty || 0) + amt;
+  if (item.status === '未拆封' || item.status === '已拆封') {
+    item.status = item.awakeningQty >= item.quantity ? '醒茶中' : item.status;
+  }
+
+  saveData();
+  closeAwakenModal();
+  renderAll();
+  alert(`已为「${item.name}」醒茶 ${amt} ${item.spec}（累计醒茶 ${item.awakeningQty} ${item.spec}）`);
+}
+
+function finishAwaken(idx) {
+  const item = data['生茶'][idx];
+  if (!confirm(`「${item.name}」已完成醒茶？${item.awakeningQty} ${item.spec} 将恢复到已拆封状态。`)) return;
+  item.awakeningQty = 0;
+  if (item.status === '醒茶中') item.status = '已拆封';
+  saveData();
+  renderAll();
+  if (document.getElementById('awakenOverlay').classList.contains('show')) { openAwakenModal(); }
+}
+
+// ==================== CSV IMPORT/EXPORT ====================
+function exportAllCSV() {
+  const headers = '茶类,品种/名称,品牌,型号,年份,茶龄,产地,规格,数量,单位重量(g),总重量(g),单价(元),总价(元),购买时间,存放位置,状态,醒茶数,备注';
+  const rows = [headers];
+
+  CATEGORIES.forEach(c => {
+    (data[c] || []).forEach(item => {
+      const ageInfo = getTeaAge(item.year);
+      rows.push([
+        c, csvEscape(item.name), csvEscape(item.brand), csvEscape(item.model),
+        csvEscape(item.year), ageInfo.label, csvEscape(item.origin), csvEscape(item.spec),
+        item.quantity||1, item.unitWeight||0, itemTotalWeight(item),
+        (item.unitPrice||0).toFixed(2), itemTotalPrice(item).toFixed(2),
+        csvEscape(item.purchaseDate), csvEscape(item.location),
+        csvEscape(item.status), item.awakeningQty||0,
+        csvEscape(item.note)
+      ].join(','));
+    });
+  });
+
+  const blob = new Blob(['\uFEFF' + rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '茶叶库存_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function csvEscape(str) {
+  if (str === null || str === undefined) return '';
+  str = String(str);
+  return (str.includes(',') || str.includes('"') || str.includes('\n')) ? '"' + str.replace(/"/g, '""') + '"' : str;
+}
+
+function importCSV() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.csv';
+  input.onchange = function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      try {
+        const lines = ev.target.result.split('\n').filter(l => l.trim());
+        if (lines.length < 2) { alert('CSV为空'); return; }
+
+        const headers = parseCSVLine(lines[0]);
+        const catIdx = headers.findIndex(h => h.includes('茶类'));
+        const nameIdx = headers.findIndex(h => h.includes('品种')||h.includes('名称'));
+        if (catIdx < 0 || nameIdx < 0) { alert('CSV必须包含"茶类"和"品种/名称"列'); return; }
+
+        const findIdx = (keywords) => { for (let kw of keywords) { const i = headers.findIndex(h => h.includes(kw)); if (i >= 0) return i; } return -1; };
+        const brandIdx = findIdx(['品牌']);
+        const modelIdx = findIdx(['型号']);
+        const yearIdx = findIdx(['年份']);
+        const originIdx = findIdx(['产地']);
+        const specIdx = findIdx(['规格']);
+        const qtyIdx = findIdx(['数量']);
+        const uwIdx = findIdx(['单位重量','单位重']);
+        const upIdx = findIdx(['单价']);
+        const dateIdx = findIdx(['购买时间']);
+        const locIdx = findIdx(['存放位置']);
+        const statusIdx = findIdx(['状态']);
+        const awakeIdx = findIdx(['醒茶']);
+        const noteIdx = findIdx(['备注']);
+
+        let imported = 0;
+        for (let i = 1; i < lines.length; i++) {
+          const cols = parseCSVLine(lines[i]);
+          if (!cols.length) continue;
+          const cat = (cols[catIdx]||'').trim();
+          const name = (cols[nameIdx]||'').trim();
+          if (!cat || !name || !CATEGORIES.includes(cat)) continue;
+          if (!data[cat]) data[cat] = [];
+
+          data[cat].push(ensureDataDefaults({
+            name, brand: (cols[brandIdx]||'').trim(), model: (cols[modelIdx]||'').trim(),
+            year: (cols[yearIdx]||'').trim(), origin: (cols[originIdx]||'').trim(),
+            spec: (cols[specIdx]||'').trim() || '饼茶',
+            quantity: parseInt(cols[qtyIdx]) || 1,
+            unitWeight: parseFloat(cols[uwIdx]) || 0,
+            unitPrice: parseFloat(cols[upIdx]) || 0,
+            purchaseDate: (cols[dateIdx]||'').trim(),
+            location: (cols[locIdx]||'').trim(),
+            status: (cols[statusIdx]||'未拆封').trim(),
+            awakeningQty: parseInt(cols[awakeIdx]) || 0,
+            note: (cols[noteIdx]||'').trim(),
+          }));
+          imported++;
+        }
+        saveData(); renderAll();
+        alert(`成功导入 ${imported} 条记录！`);
+      } catch(e) { alert('CSV解析失败：' + e.message); }
+    };
+    reader.readAsText(file, 'UTF-8');
+  };
+  input.click();
+}
+
+function parseCSVLine(line) {
+  const result = []; let current = '', inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQuotes) {
+      if (ch === '"') { if (i+1 < line.length && line[i+1]==='"') { current += '"'; i++; } else inQuotes = false; }
+      else current += ch;
+    } else {
+      if (ch === '"') inQuotes = true;
+      else if (ch === ',') { result.push(current); current = ''; }
+      else current += ch;
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', async function() {
+  // Bind activity events for auto-lock
+  ['mousemove','keydown','click','scroll','touchstart'].forEach(evt => {
+    document.addEventListener(evt, () => { if (isUnlocked) resetActivityTimer(); });
+  });
+
+  // Enter key on login
+  const loginBox = document.querySelector('.login-box');
+  if (loginBox) loginBox.addEventListener('keydown', function(e) { if (e.key === 'Enter') handleLogin(); });
+
+  // Try auto-login via saved session
+  if (restoreSession()) {
+    // Verify token is still valid
+    try {
+      const me = await apiGetMe();
+      currentUser = { username: me.user, role: me.role };
+      isUnlocked = true;
+      document.getElementById('loginOverlay').classList.add('hidden');
+      document.getElementById('headerUser').textContent = '☁️ ' + currentUser.username;
+      updateRoleBadge();
+      updateUIForRole();
+      await refreshTrialCache();
+      updateTrialBadge();
+      startAutoLock();
+      resetActivityTimer();
+      await loadData();
+      renderAll();
+      window._dataLoaded = true;
+    } catch(e) {
+      // Token expired, show login
+      clearSession();
+      showLoginUI();
+    }
+  } else {
+    showLoginUI();
+  }
+});
+</script>
+</body>
+</html>

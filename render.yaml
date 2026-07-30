@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: tea-inventory
+    env: node
+    buildCommand: ""
+    startCommand: node server.js
+    plan: free
