@@ -11,38 +11,38 @@
   },
   "teaData": {
     "lxsnfuhe@163.com": {
-      "白茶": [
+      "ç½è¶": [
         {
-          "name": "白毫银针",
-          "brand": "品品香",
+          "name": "ç½æ¯«é¶é",
+          "brand": "ååé¦",
           "model": "",
           "year": "2023",
-          "origin": "福鼎",
-          "spec": "散茶",
+          "origin": "ç¦é¼",
+          "spec": "æ£è¶",
           "quantity": 2,
           "unitWeight": 250,
           "unitPrice": 340,
           "purchaseDate": "2023-03-15",
-          "location": "茶柜上层",
-          "status": "已拆封",
+          "location": "è¶æä¸å±",
+          "status": "å·²æå°",
           "awakeningQty": 0,
-          "note": "毫香明显"
+          "note": "æ¯«é¦ææ¾"
         }
       ],
-      "生茶": [
+      "çè¶": [
         {
-          "name": "大益7542",
-          "brand": "大益",
+          "name": "å¤§ç7542",
+          "brand": "å¤§ç",
           "model": "7542",
           "year": "2021",
-          "origin": "勐海",
-          "spec": "饼茶",
+          "origin": "åæµ·",
+          "spec": "é¥¼è¶",
           "quantity": 2,
           "unitWeight": 357,
           "unitPrice": 140,
           "purchaseDate": "2022-05-20",
-          "location": "茶柜下层",
-          "status": "已拆封",
+          "location": "è¶æä¸å±",
+          "status": "å·²æå°",
           "awakeningQty": 0,
           "note": ""
         }
