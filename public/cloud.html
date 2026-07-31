@@ -347,8 +347,14 @@ const DB_API = 'https://api.github.com/repos/lxsnfuhe/tea-inventory-cloud/conten
 let dbCache = null;  // { sha, data: { accounts, teaData, tokens } }
 let dbLoading = null; // Promise for current load
 
-async function loadDB() {
+function invalidateCache() {
+  dbCache = null;
+  dbLoading = null;
+}
+
+async function loadDB(force = false) {
   if (dbLoading) return dbLoading;
+  if (dbCache && !force) return dbCache;
   dbLoading = (async () => {
     try {
       const res = await fetch(DB_API, { headers: { Authorization: 'Bearer ' + GITHUB_TOKEN, Accept: 'application/vnd.github+json' } });
@@ -390,6 +396,26 @@ async function saveDB() {
     setStatus('online', '已同步');
     return true;
   } catch(e) {
+    if (e.message && e.message.includes('does not match')) {
+      setStatus('saving', '检测到云端有更新，正在合并...');
+      try {
+        // Reload latest from GitHub
+        const latest = await loadDB(true);
+        const currentUser = localStorage.getItem(TOKEN_KEY);
+        if (currentUser && dbCache.data.teaData[currentUser]) {
+          // Merge: keep local changes for current user as authoritative, preserve other users' data
+          const localTea = dbCache.data.teaData[currentUser];
+          latest.data.teaData[currentUser] = localTea;
+        }
+        dbCache = latest;
+        // Retry save
+        return await saveDB();
+      } catch (mergeErr) {
+        console.error('merge failed:', mergeErr);
+        setStatus('offline', '同步失败: ' + e.message);
+        throw mergeErr;
+      }
+    }
     console.error('saveDB failed:', e);
     setStatus('offline', '同步失败: ' + e.message);
     throw e;
@@ -464,7 +490,7 @@ async function handleLogin() {
     if (!password) { errorEl.textContent = '请输入密码'; return; }
     const remember = document.getElementById('rememberMe').checked;
     try {
-      const db = await loadDB();
+      const db = await loadDB(true);
       const acct = db.data.accounts[username];
       if (!acct) throw new Error('账号不存在');
       if (acct.lockedUntil && Date.now() < acct.lockedUntil) {
@@ -702,7 +728,7 @@ let data = {};
 
 async function loadData() {
   try {
-    const db = dbCache || await loadDB();
+    const db = await loadDB(true);
     const td = db.data.teaData[currentUser.username] || {};
     data = {};
     CATEGORIES.forEach(c => { data[c] = (td[c] || []).map(ensureDefaults); });
