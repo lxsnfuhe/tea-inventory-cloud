@@ -5,3 +5,6 @@ services:
     buildCommand: ""
     startCommand: node server.js
     plan: free
+    envVars:
+      - key: GITHUB_TOKEN
+        sync: false
