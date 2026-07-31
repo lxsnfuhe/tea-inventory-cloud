@@ -1,0 +1,14 @@
+{
+  "accounts": {
+    "lxsnfuhe@163.com": {
+      "password": "e370df3233bdc024d9401103203f54d49bebcc922f014885f68754b7ecfbd9d2",
+      "role": "admin",
+      "trialCounts": {},
+      "createdAt": "2026-07-30T09:48:49.285Z",
+      "failedAttempts": 0,
+      "lockedUntil": null
+    }
+  },
+  "teaData": {},
+  "tokens": {}
+}
