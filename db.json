@@ -45,22 +45,6 @@
           "status": "已拆封",
           "awakeningQty": 0,
           "note": ""
-        },
-        {
-          "name": "下关甲沱",
-          "brand": "",
-          "model": "甲沱",
-          "year": "",
-          "origin": "大理",
-          "spec": "盒装",
-          "quantity": 1,
-          "unitWeight": 357,
-          "unitPrice": 1300,
-          "purchaseDate": "2026-07-31",
-          "location": "茶柜上层",
-          "status": "醒茶中",
-          "awakeningQty": 0,
-          "note": ""
         }
       ]
     }
