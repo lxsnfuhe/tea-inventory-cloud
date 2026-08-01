@@ -379,22 +379,6 @@
           "note": "煲汤泡茶均可"
         },
         {
-          "name": "老陈皮",
-          "brand": "新宝堂",
-          "model": "10年陈",
-          "year": "2014",
-          "origin": "新会",
-          "spec": "散装",
-          "quantity": 1,
-          "unitWeight": 100,
-          "unitPrice": 680,
-          "purchaseDate": "2024-08-10",
-          "location": "茶柜上层",
-          "status": "未拆封",
-          "awakeningQty": 0,
-          "note": "珍藏"
-        },
-        {
           "name": "杭白菊",
           "brand": "桐乡",
           "model": "",
