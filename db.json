@@ -141,6 +141,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": "菜送"
+        },
+        {
+          "name": "景迈志",
+          "brand": "青衫",
+          "model": "200g饼",
+          "year": "2023",
+          "origin": "景迈",
+          "spec": "饼茶",
+          "quantity": 1,
+          "unitWeight": 200,
+          "unitPrice": 0,
+          "purchaseDate": "2023-03-01",
+          "location": "茶柜上层",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ],
       "六堡": [
