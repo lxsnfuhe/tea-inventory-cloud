@@ -79,22 +79,6 @@
       ],
       "生茶": [
         {
-          "name": "大益7542",
-          "brand": "大益",
-          "model": "7542",
-          "year": "2021",
-          "origin": "勐海",
-          "spec": "饼茶",
-          "quantity": 2,
-          "unitWeight": 357,
-          "unitPrice": 140,
-          "purchaseDate": "2022-05-20",
-          "location": "茶柜下层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": ""
-        },
-        {
           "name": "下关甲沱",
           "brand": "下关",
           "model": "甲沱",
