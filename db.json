@@ -439,24 +439,7 @@
           "note": ""
         }
       ],
-      "乌龙茶": [
-        {
-          "name": "凤凰单丛",
-          "brand": "天池",
-          "model": "",
-          "year": "2023",
-          "origin": "潮州",
-          "spec": "罐装",
-          "quantity": 1,
-          "unitWeight": 150,
-          "unitPrice": 420,
-          "purchaseDate": "2023-09-08",
-          "location": "茶柜中层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "鸭屎香"
-        }
-      ],
+      "乌龙茶": [],
       "特殊品类": [
         {
           "name": "茶膏",
