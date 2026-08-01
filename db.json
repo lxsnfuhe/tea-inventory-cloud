@@ -13,38 +13,6 @@
     "lxsnfuhe@163.com": {
       "白茶": [
         {
-          "name": "寿眉饼",
-          "brand": "六妙",
-          "model": "",
-          "year": "2020",
-          "origin": "福鼎",
-          "spec": "饼茶",
-          "quantity": 3,
-          "unitWeight": 350,
-          "unitPrice": 160,
-          "purchaseDate": "2021-06-20",
-          "location": "茶柜下层",
-          "status": "未拆封",
-          "awakeningQty": 0,
-          "note": ""
-        },
-        {
-          "name": "白牡丹",
-          "brand": "品品香",
-          "model": "",
-          "year": "2022",
-          "origin": "福鼎",
-          "spec": "散茶",
-          "quantity": 1,
-          "unitWeight": 200,
-          "unitPrice": 320,
-          "purchaseDate": "2022-11-08",
-          "location": "茶柜中层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": ""
-        },
-        {
           "name": "老白茶饼",
           "brand": "绿雪芽",
           "model": "",
