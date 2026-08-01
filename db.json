@@ -77,40 +77,7 @@
           "note": "16年老茶"
         }
       ],
-      "生茶": [
-        {
-          "name": "2007年南糯",
-          "brand": "金王",
-          "model": "2007版",
-          "year": "2007",
-          "origin": "南糯",
-          "spec": "饼茶",
-          "quantity": 1,
-          "unitWeight": 357,
-          "unitPrice": 1300,
-          "purchaseDate": "2026-07-30",
-          "location": "茶柜上层",
-          "status": "未拆封",
-          "awakeningQty": 0,
-          "note": ""
-        },
-        {
-          "name": "南糯",
-          "brand": "金王",
-          "model": "2007",
-          "year": "2007春",
-          "origin": "南糯山",
-          "spec": "饼茶",
-          "quantity": 1,
-          "unitWeight": 375,
-          "unitPrice": 1300,
-          "purchaseDate": "",
-          "location": "未知",
-          "status": "未拆封",
-          "awakeningQty": 0,
-          "note": ""
-        }
-      ],
+      "生茶": [],
       "六堡": [
         {
           "name": "三鹤六堡茶",
