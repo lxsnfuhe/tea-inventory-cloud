@@ -447,22 +447,6 @@
       ],
       "茶器": [
         {
-          "name": "紫砂壶",
-          "brand": "宜兴",
-          "model": "150ml",
-          "year": "2023",
-          "origin": "宜兴",
-          "spec": "紫砂",
-          "quantity": 1,
-          "unitWeight": 0,
-          "unitPrice": 680,
-          "purchaseDate": "2023-09-15",
-          "location": "茶台",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "泡普洱用"
-        },
-        {
           "name": "壶承",
           "brand": "景德镇",
           "model": "",
