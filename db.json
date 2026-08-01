@@ -447,22 +447,6 @@
       ],
       "茶器": [
         {
-          "name": "白瓷盖碗",
-          "brand": "景德镇",
-          "model": "100ml",
-          "year": "2024",
-          "origin": "景德镇",
-          "spec": "陶瓷",
-          "quantity": 1,
-          "unitWeight": 0,
-          "unitPrice": 180,
-          "purchaseDate": "2024-06-01",
-          "location": "茶台",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "日常泡茶用"
-        },
-        {
           "name": "紫砂壶",
           "brand": "宜兴",
           "model": "150ml",
