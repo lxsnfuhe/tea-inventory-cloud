@@ -521,6 +521,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": ""
+        },
+        {
+          "name": "发汗沱",
+          "brand": "金王",
+          "model": "一提四个",
+          "year": "2025",
+          "origin": "大漆树",
+          "spec": "其他",
+          "quantity": 1,
+          "unitWeight": 1000,
+          "unitPrice": 640,
+          "purchaseDate": "2025-12-01",
+          "location": "",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ],
       "茶器": [
