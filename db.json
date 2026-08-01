@@ -253,6 +253,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": ""
+        },
+        {
+          "name": "倚邦",
+          "brand": "金王",
+          "model": "375秋茶",
+          "year": "2024",
+          "origin": "革登",
+          "spec": "饼茶",
+          "quantity": 1,
+          "unitWeight": 375,
+          "unitPrice": 278,
+          "purchaseDate": "2024-12-21",
+          "location": "茶柜下层",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ],
       "六堡": [
