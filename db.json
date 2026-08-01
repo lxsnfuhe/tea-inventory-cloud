@@ -173,6 +173,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": "暂时不知道价格"
+        },
+        {
+          "name": "倚邦",
+          "brand": "金王",
+          "model": "200饼",
+          "year": "2024",
+          "origin": "倚邦",
+          "spec": "饼茶",
+          "quantity": 1,
+          "unitWeight": 200,
+          "unitPrice": 0,
+          "purchaseDate": "2025-03-01",
+          "location": "茶柜上层",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": "老王送的福利"
         }
       ],
       "六堡": [
