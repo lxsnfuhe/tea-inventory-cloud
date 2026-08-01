@@ -355,22 +355,6 @@
       ],
       "红茶": [
         {
-          "name": "正山小种",
-          "brand": "正山堂",
-          "model": "",
-          "year": "2024",
-          "origin": "武夷山",
-          "spec": "罐装",
-          "quantity": 2,
-          "unitWeight": 100,
-          "unitPrice": 180,
-          "purchaseDate": "2024-04-10",
-          "location": "茶柜上层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "松烟香"
-        },
-        {
           "name": "金骏眉",
           "brand": "正山堂",
           "model": "",
