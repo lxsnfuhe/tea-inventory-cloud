@@ -285,6 +285,22 @@
           "status": "醒茶中",
           "awakeningQty": 0,
           "note": ""
+        },
+        {
+          "name": "南糯",
+          "brand": "金王",
+          "model": "250g砖",
+          "year": "2006",
+          "origin": "南糯",
+          "spec": "砖茶",
+          "quantity": 2,
+          "unitWeight": 250,
+          "unitPrice": 450,
+          "purchaseDate": "2024-03-01",
+          "location": "茶柜上层",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ],
       "六堡": [
