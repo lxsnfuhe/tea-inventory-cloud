@@ -441,22 +441,6 @@
       ],
       "乌龙茶": [
         {
-          "name": "铁观音",
-          "brand": "八马",
-          "model": "",
-          "year": "2024",
-          "origin": "安溪",
-          "spec": "罐装",
-          "quantity": 2,
-          "unitWeight": 250,
-          "unitPrice": 140,
-          "purchaseDate": "2024-05-20",
-          "location": "茶柜中层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "清香型"
-        },
-        {
           "name": "凤凰单丛",
           "brand": "天池",
           "model": "",
@@ -587,24 +571,7 @@
           "note": ""
         }
       ],
-      "茶器": [
-        {
-          "name": "茶滤",
-          "brand": "金灶",
-          "model": "",
-          "year": "2024",
-          "origin": "广东",
-          "spec": "其他",
-          "quantity": 1,
-          "unitWeight": 0,
-          "unitPrice": 28,
-          "purchaseDate": "2024-06-01",
-          "location": "茶台",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": ""
-        }
-      ]
+      "茶器": []
     }
   },
   "tokens": {
