@@ -353,24 +353,7 @@
           "note": "陈香槟榔香"
         }
       ],
-      "红茶": [
-        {
-          "name": "金骏眉",
-          "brand": "正山堂",
-          "model": "",
-          "year": "2024",
-          "origin": "武夷山",
-          "spec": "罐装",
-          "quantity": 1,
-          "unitWeight": 50,
-          "unitPrice": 560,
-          "purchaseDate": "2024-04-10",
-          "location": "茶柜上层",
-          "status": "未拆封",
-          "awakeningQty": 0,
-          "note": ""
-        }
-      ],
+      "红茶": [],
       "黑茶": [],
       "武夷岩茶": [],
       "乌龙茶": [],
