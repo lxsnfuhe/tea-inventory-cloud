@@ -589,22 +589,6 @@
       ],
       "茶器": [
         {
-          "name": "南部铁壶",
-          "brand": "岩手",
-          "model": "800ml",
-          "year": "2022",
-          "origin": "日本南部",
-          "spec": "铁器",
-          "quantity": 1,
-          "unitWeight": 0,
-          "unitPrice": 1280,
-          "purchaseDate": "2022-11-20",
-          "location": "茶台",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "煮水用"
-        },
-        {
           "name": "电热水壶",
           "brand": "金灶",
           "model": "1.2L",
