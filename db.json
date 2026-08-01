@@ -407,22 +407,6 @@
       ],
       "武夷岩茶": [
         {
-          "name": "肉桂",
-          "brand": "武夷星",
-          "model": "",
-          "year": "2023",
-          "origin": "武夷山",
-          "spec": "罐装",
-          "quantity": 2,
-          "unitWeight": 125,
-          "unitPrice": 260,
-          "purchaseDate": "2023-10-15",
-          "location": "茶柜上层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "中火"
-        },
-        {
           "name": "水仙",
           "brand": "武夷星",
           "model": "",
