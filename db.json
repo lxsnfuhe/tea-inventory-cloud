@@ -363,22 +363,6 @@
       ],
       "特殊品类": [
         {
-          "name": "平阴玫瑰花",
-          "brand": "平阴",
-          "model": "",
-          "year": "2024",
-          "origin": "平阴",
-          "spec": "散装",
-          "quantity": 1,
-          "unitWeight": 100,
-          "unitPrice": 38,
-          "purchaseDate": "2024-09-01",
-          "location": "茶柜上层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "美容养颜"
-        },
-        {
           "name": "四川苦荞茶",
           "brand": "环太",
           "model": "",
