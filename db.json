@@ -589,38 +589,6 @@
       ],
       "茶器": [
         {
-          "name": "电热水壶",
-          "brand": "金灶",
-          "model": "1.2L",
-          "year": "2024",
-          "origin": "广东",
-          "spec": "电热",
-          "quantity": 1,
-          "unitWeight": 0,
-          "unitPrice": 260,
-          "purchaseDate": "2024-03-10",
-          "location": "茶台",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "烧水器"
-        },
-        {
-          "name": "电陶炉",
-          "brand": "容山堂",
-          "model": "",
-          "year": "2024",
-          "origin": "浙江",
-          "spec": "电热",
-          "quantity": 1,
-          "unitWeight": 0,
-          "unitPrice": 360,
-          "purchaseDate": "2024-03-10",
-          "location": "茶台",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "搭配铁壶煮水"
-        },
-        {
           "name": "玻璃公道杯",
           "brand": "金灶",
           "model": "200ml",
