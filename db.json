@@ -77,40 +77,7 @@
           "note": "16年老茶"
         }
       ],
-      "熟茶": [
-        {
-          "name": "金针白莲",
-          "brand": "大益",
-          "model": "",
-          "year": "2020",
-          "origin": "勐海",
-          "spec": "饼茶",
-          "quantity": 1,
-          "unitWeight": 357,
-          "unitPrice": 450,
-          "purchaseDate": "2021-03-10",
-          "location": "茶柜中层",
-          "status": "未拆封",
-          "awakeningQty": 0,
-          "note": ""
-        },
-        {
-          "name": "老茶头",
-          "brand": "澜沧古茶",
-          "model": "",
-          "year": "2008",
-          "origin": "勐海",
-          "spec": "罐装",
-          "quantity": 1,
-          "unitWeight": 200,
-          "unitPrice": 880,
-          "purchaseDate": "2015-06-01",
-          "location": "茶柜下层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "18年陈"
-        }
-      ],
+      "熟茶": [],
       "生茶": [
         {
           "name": "大益7542",
