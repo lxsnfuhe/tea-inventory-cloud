@@ -199,7 +199,7 @@
           "spec": "饼茶",
           "quantity": 6,
           "unitWeight": 200,
-          "unitPrice": 2000,
+          "unitPrice": 333.3,
           "purchaseDate": "2024-04-07",
           "location": "茶柜上层",
           "status": "未拆封",
