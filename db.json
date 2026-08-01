@@ -301,6 +301,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": ""
+        },
+        {
+          "name": "曼松",
+          "brand": "观止斋",
+          "model": "260",
+          "year": "2022",
+          "origin": "曼松",
+          "spec": "饼茶",
+          "quantity": 1,
+          "unitWeight": 200,
+          "unitPrice": 260,
+          "purchaseDate": "2024-02-01",
+          "location": "",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ],
       "六堡": [
