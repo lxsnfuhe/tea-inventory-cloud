@@ -221,6 +221,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": "暂时不知道价格"
+        },
+        {
+          "name": "南糯",
+          "brand": "金王",
+          "model": "375秋茶",
+          "year": "2024",
+          "origin": "南糯",
+          "spec": "饼茶",
+          "quantity": 1,
+          "unitWeight": 375,
+          "unitPrice": 0,
+          "purchaseDate": "2024-06-13",
+          "location": "茶柜下层",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ],
       "六堡": [
