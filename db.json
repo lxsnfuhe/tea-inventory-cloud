@@ -363,38 +363,6 @@
       ],
       "特殊品类": [
         {
-          "name": "新会陈皮",
-          "brand": "新宝堂",
-          "model": "5年陈",
-          "year": "2019",
-          "origin": "新会",
-          "spec": "散装",
-          "quantity": 1,
-          "unitWeight": 250,
-          "unitPrice": 380,
-          "purchaseDate": "2024-08-10",
-          "location": "茶柜上层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "煲汤泡茶均可"
-        },
-        {
-          "name": "杭白菊",
-          "brand": "桐乡",
-          "model": "",
-          "year": "2024",
-          "origin": "桐乡",
-          "spec": "散装",
-          "quantity": 2,
-          "unitWeight": 150,
-          "unitPrice": 45,
-          "purchaseDate": "2024-09-01",
-          "location": "茶柜上层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "清热降火"
-        },
-        {
           "name": "平阴玫瑰花",
           "brand": "平阴",
           "model": "",
