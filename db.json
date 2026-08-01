@@ -11,24 +11,7 @@
   },
   "teaData": {
     "lxsnfuhe@163.com": {
-      "白茶": [
-        {
-          "name": "老白茶饼",
-          "brand": "绿雪芽",
-          "model": "",
-          "year": "2010",
-          "origin": "福鼎",
-          "spec": "饼茶",
-          "quantity": 1,
-          "unitWeight": 350,
-          "unitPrice": 1200,
-          "purchaseDate": "2015-01-10",
-          "location": "茶柜下层",
-          "status": "未拆封",
-          "awakeningQty": 0,
-          "note": "16年老茶"
-        }
-      ],
+      "白茶": [],
       "生茶": [
         {
           "name": "革登",
