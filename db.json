@@ -189,6 +189,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": "老王送的福利"
+        },
+        {
+          "name": "昔归",
+          "brand": "青衫",
+          "model": "200饼",
+          "year": "2024",
+          "origin": "昔归",
+          "spec": "饼茶",
+          "quantity": 6,
+          "unitWeight": 200,
+          "unitPrice": 2000,
+          "purchaseDate": "2024-04-07",
+          "location": "茶柜上层",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ],
       "六堡": [
