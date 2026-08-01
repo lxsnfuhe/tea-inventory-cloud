@@ -589,22 +589,6 @@
       ],
       "茶器": [
         {
-          "name": "壶承",
-          "brand": "景德镇",
-          "model": "",
-          "year": "2024",
-          "origin": "景德镇",
-          "spec": "陶瓷",
-          "quantity": 1,
-          "unitWeight": 0,
-          "unitPrice": 120,
-          "purchaseDate": "2024-06-01",
-          "location": "茶台",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": ""
-        },
-        {
           "name": "南部铁壶",
           "brand": "岩手",
           "model": "800ml",
