@@ -205,6 +205,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": ""
+        },
+        {
+          "name": "那卡",
+          "brand": "鹏程",
+          "model": "375饼",
+          "year": "2017",
+          "origin": "南糯",
+          "spec": "饼茶",
+          "quantity": 1,
+          "unitWeight": 375,
+          "unitPrice": 1590,
+          "purchaseDate": "2022-02-01",
+          "location": "茶柜上层",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": "暂时不知道价格"
         }
       ],
       "六堡": [
