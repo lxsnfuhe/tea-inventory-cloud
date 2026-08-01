@@ -77,7 +77,24 @@
           "note": "16年老茶"
         }
       ],
-      "生茶": [],
+      "生茶": [
+        {
+          "name": "革登",
+          "brand": "金王",
+          "model": "公斤砖",
+          "year": "2026春",
+          "origin": "革登",
+          "spec": "饼茶",
+          "quantity": 1,
+          "unitWeight": 1000,
+          "unitPrice": 2100,
+          "purchaseDate": "2026-02-13",
+          "location": "茶柜下层",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": "兰花香浓厚"
+        }
+      ],
       "六堡": [
         {
           "name": "三鹤六堡茶",
