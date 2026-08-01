@@ -1,0 +1,369 @@
+{
+  "accounts": {
+    "lxsnfuhe@163.com": {
+      "password": "e370df3233bdc024d9401103203f54d49bebcc922f014885f68754b7ecfbd9d2",
+      "role": "admin",
+      "trialCounts": {},
+      "createdAt": "2026-07-30T09:48:49.285Z",
+      "failedAttempts": 0,
+      "lockedUntil": null
+    }
+  },
+  "teaData": {
+    "lxsnfuhe@163.com": {
+      "白茶": [
+        {
+          "name": "白毫银针",
+          "brand": "品品香",
+          "model": "",
+          "year": "2023",
+          "origin": "福鼎",
+          "spec": "散茶",
+          "quantity": 2,
+          "unitWeight": 250,
+          "unitPrice": 340,
+          "purchaseDate": "2023-03-15",
+          "location": "茶柜上层",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": "毫香明显"
+        }
+      ],
+      "熟茶": [],
+      "生茶": [
+        {
+          "name": "大益7542",
+          "brand": "大益",
+          "model": "7542",
+          "year": "2021",
+          "origin": "勐海",
+          "spec": "饼茶",
+          "quantity": 2,
+          "unitWeight": 357,
+          "unitPrice": 140,
+          "purchaseDate": "2022-05-20",
+          "location": "茶柜下层",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": ""
+        }
+      ],
+      "六堡": [],
+      "红茶": [],
+      "黑茶": [],
+      "武夷岩茶": [],
+      "乌龙茶": [],
+      "茶器": [
+        {
+          "name": "白瓷盖碗",
+          "brand": "景德镇",
+          "model": "100ml",
+          "year": "2024",
+          "origin": "景德镇",
+          "spec": "陶瓷",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 180,
+          "purchaseDate": "2024-06-01",
+          "location": "茶台",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": "日常泡茶用"
+        },
+        {
+          "name": "紫砂壶",
+          "brand": "宜兴",
+          "model": "150ml",
+          "year": "2023",
+          "origin": "宜兴",
+          "spec": "紫砂",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 680,
+          "purchaseDate": "2023-09-15",
+          "location": "茶台",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": "泡普洱用"
+        },
+        {
+          "name": "壶承",
+          "brand": "景德镇",
+          "model": "",
+          "year": "2024",
+          "origin": "景德镇",
+          "spec": "陶瓷",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 120,
+          "purchaseDate": "2024-06-01",
+          "location": "茶台",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": ""
+        },
+        {
+          "name": "南部铁壶",
+          "brand": "岩手",
+          "model": "800ml",
+          "year": "2022",
+          "origin": "日本南部",
+          "spec": "铁器",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 1280,
+          "purchaseDate": "2022-11-20",
+          "location": "茶台",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": "煮水用"
+        },
+        {
+          "name": "电热水壶",
+          "brand": "金灶",
+          "model": "1.2L",
+          "year": "2024",
+          "origin": "广东",
+          "spec": "电热",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 260,
+          "purchaseDate": "2024-03-10",
+          "location": "茶台",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": "烧水器"
+        },
+        {
+          "name": "电陶炉",
+          "brand": "容山堂",
+          "model": "",
+          "year": "2024",
+          "origin": "浙江",
+          "spec": "电热",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 360,
+          "purchaseDate": "2024-03-10",
+          "location": "茶台",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": "搭配铁壶煮水"
+        },
+        {
+          "name": "玻璃公道杯",
+          "brand": "金灶",
+          "model": "200ml",
+          "year": "2024",
+          "origin": "广东",
+          "spec": "玻璃",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 45,
+          "purchaseDate": "2024-06-01",
+          "location": "茶台",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": ""
+        },
+        {
+          "name": "品茗杯",
+          "brand": "景德镇",
+          "model": "50ml",
+          "year": "2024",
+          "origin": "景德镇",
+          "spec": "陶瓷",
+          "quantity": 4,
+          "unitWeight": 0,
+          "unitPrice": 35,
+          "purchaseDate": "2024-06-01",
+          "location": "茶台",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": ""
+        },
+        {
+          "name": "茶滤",
+          "brand": "金灶",
+          "model": "",
+          "year": "2024",
+          "origin": "广东",
+          "spec": "其他",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 28,
+          "purchaseDate": "2024-06-01",
+          "location": "茶台",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": ""
+        }
+      ],
+      "特殊品类": [
+        {
+          "name": "新会陈皮",
+          "brand": "新宝堂",
+          "model": "5年陈",
+          "year": "2019",
+          "origin": "新会",
+          "spec": "散装",
+          "quantity": 1,
+          "unitWeight": 250,
+          "unitPrice": 380,
+          "purchaseDate": "2024-08-10",
+          "location": "茶柜上层",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": "煲汤泡茶均可"
+        },
+        {
+          "name": "老陈皮",
+          "brand": "新宝堂",
+          "model": "10年陈",
+          "year": "2014",
+          "origin": "新会",
+          "spec": "散装",
+          "quantity": 1,
+          "unitWeight": 100,
+          "unitPrice": 680,
+          "purchaseDate": "2024-08-10",
+          "location": "茶柜上层",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": "珍藏"
+        },
+        {
+          "name": "杭白菊",
+          "brand": "桐乡",
+          "model": "",
+          "year": "2024",
+          "origin": "桐乡",
+          "spec": "散装",
+          "quantity": 2,
+          "unitWeight": 150,
+          "unitPrice": 45,
+          "purchaseDate": "2024-09-01",
+          "location": "茶柜上层",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": "清热降火"
+        },
+        {
+          "name": "平阴玫瑰花",
+          "brand": "平阴",
+          "model": "",
+          "year": "2024",
+          "origin": "平阴",
+          "spec": "散装",
+          "quantity": 1,
+          "unitWeight": 100,
+          "unitPrice": 38,
+          "purchaseDate": "2024-09-01",
+          "location": "茶柜上层",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": "美容养颜"
+        },
+        {
+          "name": "四川苦荞茶",
+          "brand": "环太",
+          "model": "",
+          "year": "2024",
+          "origin": "四川",
+          "spec": "袋装",
+          "quantity": 2,
+          "unitWeight": 500,
+          "unitPrice": 28,
+          "purchaseDate": "2024-09-01",
+          "location": "茶柜下层",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": "降脂助消化"
+        },
+        {
+          "name": "大麦茶",
+          "brand": "怡达",
+          "model": "",
+          "year": "2024",
+          "origin": "福建",
+          "spec": "袋装",
+          "quantity": 1,
+          "unitWeight": 500,
+          "unitPrice": 18,
+          "purchaseDate": "2024-09-01",
+          "location": "茶柜下层",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": "助消化"
+        }
+      ]
+    }
+  },
+  "tokens": {
+    "b5cb13497c9b6ef8b2276ed362310a8756c9848355dc908f817d67255f466e61": {
+      "user": "lxsnfuhe@163.com",
+      "createdAt": 1785404944241,
+      "expiresAt": 1786009744241
+    },
+    "33a407584c9ab383e4f3368057d53c152dfca9431725c7dde35e55acadf13e8f": {
+      "user": "lxsnfuhe@163.com",
+      "createdAt": 1785406658308,
+      "expiresAt": 1786011458308
+    },
+    "2d57b234634cb45e53b88a93d87bcfdf0830385f93378664ad9816b2b8d3733f": {
+      "user": "lxsnfuhe@163.com",
+      "createdAt": 1785407024875,
+      "expiresAt": 1786011824875
+    },
+    "b1f1283fd00bb64df28d34f226edf2353a39d1d0e38fbe67aab42d28ef401824": {
+      "user": "lxsnfuhe@163.com",
+      "createdAt": 1785409328100,
+      "expiresAt": 1786014128100
+    },
+    "2b3e0afa7a97b5dbf52cff343b969e96ab06c033b0c7926deb6c2332470a424f": {
+      "user": "lxsnfuhe@163.com",
+      "createdAt": 1785409357508,
+      "expiresAt": 1786014157508
+    },
+    "d4f6ed5a2dadbefc1cd409730530a171ce2b2e2476dfeeb5d7ed620088e6ba27": {
+      "user": "lxsnfuhe@163.com",
+      "createdAt": 1785409520940,
+      "expiresAt": 1786014320940
+    },
+    "40140fa42fa7f7329aaf12e687d04fbec1e12044f3f14135ded1041fa5baa5fc": {
+      "user": "lxsnfuhe@163.com",
+      "createdAt": 1785409522543,
+      "expiresAt": 1786014322543
+    },
+    "84f09acffc15bfe67ef167a036a320fbfe244089f701e0d39be837142cf557ec": {
+      "user": "lxsnfuhe@163.com",
+      "createdAt": 1785409611464,
+      "expiresAt": 1786014411464
+    },
+    "1d1f09f17360e7b2c06002425e357bc9b3c6f3f0358cd115343cdf05f4f03703": {
+      "user": "lxsnfuhe@163.com",
+      "createdAt": 1785411730820,
+      "expiresAt": 1785498130820
+    },
+    "91af1db1ffc7471836b29464ba2616a66212634ea59d5d89326c7e3ddb3fa271": {
+      "user": "lxsnfuhe@163.com",
+      "createdAt": 1785411809535,
+      "expiresAt": 1786016609535
+    },
+    "b5b8090e9c8b591ff1382dfd72711656dddcf95223b6d8abe089bd7d79ef67d7": {
+      "user": "lxsnfuhe@163.com",
+      "createdAt": 1785411809798,
+      "expiresAt": 1786016609798
+    },
+    "0ce910fa887892a1655cf8bdbe35f00257145ac216ce52ff2c034c2fe2e9cd66": {
+      "user": "lxsnfuhe@163.com",
+      "createdAt": 1785412176789,
+      "expiresAt": 1786016976789
+    },
+    "6ad782477779e0ab779db02c7be4545fc308070b145af7a71bda7387ec9e4493": {
+      "user": "lxsnfuhe@163.com",
+      "createdAt": 1785412675553,
+      "expiresAt": 1786017475553
+    }
+  }
+}
