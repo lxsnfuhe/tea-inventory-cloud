@@ -79,38 +79,6 @@
       ],
       "生茶": [
         {
-          "name": "下关甲沱",
-          "brand": "下关",
-          "model": "甲沱",
-          "year": "2018",
-          "origin": "大理",
-          "spec": "沱茶",
-          "quantity": 4,
-          "unitWeight": 100,
-          "unitPrice": 40,
-          "purchaseDate": "2019-08-12",
-          "location": "茶柜下层",
-          "status": "已拆封",
-          "awakeningQty": 1,
-          "note": "烟香浓郁"
-        },
-        {
-          "name": "陈升号老班章",
-          "brand": "陈升号",
-          "model": "",
-          "year": "2011",
-          "origin": "勐海",
-          "spec": "饼茶",
-          "quantity": 1,
-          "unitWeight": 357,
-          "unitPrice": 3500,
-          "purchaseDate": "2013-04-08",
-          "location": "茶柜下层",
-          "status": "未拆封",
-          "awakeningQty": 0,
-          "note": "15年陈"
-        },
-        {
           "name": "2007年南糯",
           "brand": "金王",
           "model": "2007版",
