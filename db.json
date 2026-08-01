@@ -387,42 +387,8 @@
           "note": ""
         }
       ],
-      "黑茶": [
-        {
-          "name": "白沙溪天尖",
-          "brand": "白沙溪",
-          "model": "",
-          "year": "2018",
-          "origin": "安化",
-          "spec": "篓装",
-          "quantity": 1,
-          "unitWeight": 1000,
-          "unitPrice": 450,
-          "purchaseDate": "2020-11-05",
-          "location": "储藏室",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": ""
-        }
-      ],
-      "武夷岩茶": [
-        {
-          "name": "水仙",
-          "brand": "武夷星",
-          "model": "",
-          "year": "2023",
-          "origin": "武夷山",
-          "spec": "罐装",
-          "quantity": 1,
-          "unitWeight": 125,
-          "unitPrice": 380,
-          "purchaseDate": "2023-10-15",
-          "location": "茶柜上层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": ""
-        }
-      ],
+      "黑茶": [],
+      "武夷岩茶": [],
       "乌龙茶": [],
       "特殊品类": [
         {
