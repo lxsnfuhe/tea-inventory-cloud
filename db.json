@@ -79,22 +79,6 @@
       ],
       "熟茶": [
         {
-          "name": "大益7572",
-          "brand": "大益",
-          "model": "7572",
-          "year": "2019",
-          "origin": "勐海",
-          "spec": "饼茶",
-          "quantity": 2,
-          "unitWeight": 357,
-          "unitPrice": 160,
-          "purchaseDate": "2020-01-15",
-          "location": "茶柜下层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "经典标杆"
-        },
-        {
           "name": "金针白莲",
           "brand": "大益",
           "model": "",
