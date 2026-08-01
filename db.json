@@ -269,6 +269,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": ""
+        },
+        {
+          "name": "南糯",
+          "brand": "小储",
+          "model": "375饼",
+          "year": "2008",
+          "origin": "南糯",
+          "spec": "饼茶",
+          "quantity": 2,
+          "unitWeight": 375,
+          "unitPrice": 450,
+          "purchaseDate": "2024-03-01",
+          "location": "茶柜上层",
+          "status": "醒茶中",
+          "awakeningQty": 0,
+          "note": ""
         }
       ],
       "六堡": [
