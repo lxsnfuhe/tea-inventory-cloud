@@ -109,6 +109,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": "兰花香浓厚"
+        },
+        {
+          "name": "倚邦",
+          "brand": "金王",
+          "model": "挑采",
+          "year": "2010",
+          "origin": "倚邦",
+          "spec": "饼茶",
+          "quantity": 1,
+          "unitWeight": 200,
+          "unitPrice": 320,
+          "purchaseDate": "2025-08-19",
+          "location": "茶柜上层",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": "小储"
         }
       ],
       "六堡": [
