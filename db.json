@@ -361,7 +361,24 @@
           "note": "鸭屎香"
         }
       ],
-      "特殊品类": [],
+      "特殊品类": [
+        {
+          "name": "茶膏",
+          "brand": "金王",
+          "model": "罐装",
+          "year": "2024",
+          "origin": "西双版纳",
+          "spec": "罐装",
+          "quantity": 1,
+          "unitWeight": 250,
+          "unitPrice": 2300,
+          "purchaseDate": "2024-06-13",
+          "location": "茶柜下层",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": ""
+        }
+      ],
       "茶器": [
         {
           "name": "壶承",
