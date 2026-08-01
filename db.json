@@ -335,24 +335,7 @@
           "note": ""
         }
       ],
-      "六堡": [
-        {
-          "name": "三鹤六堡茶",
-          "brand": "三鹤",
-          "model": "",
-          "year": "2015",
-          "origin": "梧州",
-          "spec": "箩装",
-          "quantity": 1,
-          "unitWeight": 500,
-          "unitPrice": 680,
-          "purchaseDate": "2018-09-01",
-          "location": "茶柜中层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "陈香槟榔香"
-        }
-      ],
+      "六堡": [],
       "红茶": [],
       "黑茶": [],
       "武夷岩茶": [],
