@@ -317,6 +317,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": ""
+        },
+        {
+          "name": "新班章",
+          "brand": "青衫",
+          "model": "",
+          "year": "2024",
+          "origin": "新班章",
+          "spec": "饼茶",
+          "quantity": 20,
+          "unitWeight": 50,
+          "unitPrice": 169,
+          "purchaseDate": "2024-03-01",
+          "location": "茶柜下层",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ],
       "六堡": [
