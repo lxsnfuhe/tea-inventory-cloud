@@ -361,40 +361,7 @@
           "note": "鸭屎香"
         }
       ],
-      "特殊品类": [
-        {
-          "name": "四川苦荞茶",
-          "brand": "环太",
-          "model": "",
-          "year": "2024",
-          "origin": "四川",
-          "spec": "袋装",
-          "quantity": 2,
-          "unitWeight": 500,
-          "unitPrice": 28,
-          "purchaseDate": "2024-09-01",
-          "location": "茶柜下层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "降脂助消化"
-        },
-        {
-          "name": "大麦茶",
-          "brand": "怡达",
-          "model": "",
-          "year": "2024",
-          "origin": "福建",
-          "spec": "袋装",
-          "quantity": 1,
-          "unitWeight": 500,
-          "unitPrice": 18,
-          "purchaseDate": "2024-09-01",
-          "location": "茶柜下层",
-          "status": "已拆封",
-          "awakeningQty": 0,
-          "note": "助消化"
-        }
-      ],
+      "特殊品类": [],
       "茶器": [
         {
           "name": "壶承",
