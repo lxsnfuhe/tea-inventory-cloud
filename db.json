@@ -501,6 +501,22 @@
           "status": "已拆封",
           "awakeningQty": 0,
           "note": ""
+        },
+        {
+          "name": "紫砂壶",
+          "brand": "手工作坊",
+          "model": "紫泥汉瓦",
+          "year": "2023",
+          "origin": "宜兴紫砂",
+          "spec": "紫砂",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 488,
+          "purchaseDate": "",
+          "location": "",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ]
     }
