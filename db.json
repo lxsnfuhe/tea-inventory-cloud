@@ -629,6 +629,22 @@
           "status": "已拆封",
           "awakeningQty": 0,
           "note": ""
+        },
+        {
+          "name": "主人杯",
+          "brand": "未知",
+          "model": "八角哥窑高杯",
+          "year": "2023",
+          "origin": "景德镇",
+          "spec": "陶瓷",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 80,
+          "purchaseDate": "",
+          "location": "",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ]
     }
