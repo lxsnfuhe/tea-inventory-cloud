@@ -453,6 +453,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": ""
+        },
+        {
+          "name": "紫砂壶",
+          "brand": "润道",
+          "model": "桃花泥井栏",
+          "year": "2024",
+          "origin": "宜兴紫砂",
+          "spec": "紫砂",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 1999,
+          "purchaseDate": "",
+          "location": "",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ]
     }
