@@ -389,7 +389,24 @@
           "note": ""
         }
       ],
-      "茶器": []
+      "茶器": [
+        {
+          "name": "紫砂壶",
+          "brand": "润道",
+          "model": "黄金段秦权",
+          "year": "2024",
+          "origin": "宜兴",
+          "spec": "紫砂",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 1800,
+          "purchaseDate": "",
+          "location": "",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": ""
+        }
+      ]
     }
   },
   "tokens": {
