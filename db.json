@@ -549,6 +549,22 @@
           "status": "已拆封",
           "awakeningQty": 0,
           "note": ""
+        },
+        {
+          "name": "主人杯",
+          "brand": "阅山堂",
+          "model": "青花粉彩8角包银杯",
+          "year": "2025",
+          "origin": "景德镇",
+          "spec": "陶瓷",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 300,
+          "purchaseDate": "",
+          "location": "",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ]
     }
