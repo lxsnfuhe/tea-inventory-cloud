@@ -469,6 +469,22 @@
           "status": "已拆封",
           "awakeningQty": 0,
           "note": ""
+        },
+        {
+          "name": "紫砂壶",
+          "brand": "杂牌",
+          "model": "朱泥小水平",
+          "year": "2023",
+          "origin": "宜兴紫砂",
+          "spec": "紫砂",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 199,
+          "purchaseDate": "",
+          "location": "",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ]
     }
