@@ -533,6 +533,22 @@
           "status": "已拆封",
           "awakeningQty": 0,
           "note": ""
+        },
+        {
+          "name": "电陶炉",
+          "brand": "莺歌烧",
+          "model": "四方八角珍珠白",
+          "year": "2026",
+          "origin": "台湾",
+          "spec": "电热",
+          "quantity": 1,
+          "unitWeight": 0,
+          "unitPrice": 790,
+          "purchaseDate": "",
+          "location": "",
+          "status": "已拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ]
     }
