@@ -7,6 +7,14 @@
       "createdAt": "2026-07-30T09:48:49.285Z",
       "failedAttempts": 0,
       "lockedUntil": null
+    },
+    "src": {
+      "password": "a8a51896dc5f36429d4da5b5a0e7b72d7782b7a101376a9be92a424bad2271c4",
+      "role": "viewer",
+      "trialCounts": {},
+      "createdAt": "2026-08-03T02:26:41.256Z",
+      "failedAttempts": 0,
+      "lockedUntil": null
     }
   },
   "teaData": {
