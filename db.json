@@ -292,6 +292,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": "放老王处"
+        },
+        {
+          "name": "倚邦年",
+          "brand": "金王",
+          "model": "375克饼",
+          "year": "2017年",
+          "origin": "曼庄",
+          "spec": "饼茶",
+          "quantity": 2,
+          "unitWeight": 375,
+          "unitPrice": 600,
+          "purchaseDate": "2026-08-01",
+          "location": "金王",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": "放老王处"
         }
       ],
       "六堡": [],
