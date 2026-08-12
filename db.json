@@ -308,6 +308,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": "放老王处"
+        },
+        {
+          "name": "倚邦年",
+          "brand": "金王",
+          "model": "375克饼",
+          "year": "2018年",
+          "origin": "革登",
+          "spec": "饼茶",
+          "quantity": 2,
+          "unitWeight": 375,
+          "unitPrice": 450,
+          "purchaseDate": "2026-08-01",
+          "location": "金王",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": "（黄片和成品茶各半）"
         }
       ],
       "六堡": [],
