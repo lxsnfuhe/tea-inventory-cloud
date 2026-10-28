@@ -324,6 +324,22 @@
           "status": "未拆封",
           "awakeningQty": 0,
           "note": "（黄片和成品茶各半）"
+        },
+        {
+          "name": "景迈",
+          "brand": "金王",
+          "model": "200g",
+          "year": "2013",
+          "origin": "景迈",
+          "spec": "饼茶",
+          "quantity": 10,
+          "unitWeight": 200,
+          "unitPrice": 65,
+          "purchaseDate": "2026-09-17",
+          "location": "茶柜下层",
+          "status": "未拆封",
+          "awakeningQty": 0,
+          "note": ""
         }
       ],
       "六堡": [],
